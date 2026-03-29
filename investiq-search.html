@@ -8,7 +8,7 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0d0f14; --surface: #151820; --surface2: #1c2030; --surface3: #232840;
+  --bg: #0d0f14; --surface: #151820; --surface2: #1c2030;
   --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
   --text: #eef0f8; --text2: #8891aa; --text3: #555f7a;
   --green: #22d48a; --green-dim: rgba(34,212,138,0.12);
@@ -18,411 +18,150 @@
   --font: 'DM Sans', sans-serif; --serif: 'DM Serif Display', serif;
 }
 html, body { background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; min-height: 100vh; }
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 10px; }
-
-/* TOPBAR */
-.topbar {
-  position: sticky; top: 0; z-index: 100;
-  display: flex; align-items: center; padding: 0 32px; height: 56px;
-  background: rgba(13,15,20,0.9); backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border); gap: 16px;
-}
+.topbar { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; padding: 0 32px; height: 56px; background: rgba(13,15,20,0.9); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); gap: 16px; }
 .logo { font-family: var(--serif); font-size: 20px; color: var(--text); display: flex; align-items: center; gap: 6px; text-decoration: none; flex-shrink: 0; }
 .logo-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
-
-.search-bar-wrap { flex: 1; max-width: 600px; position: relative; }
-.search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text3); font-size: 15px; pointer-events: none; }
-.search-input {
-  width: 100%; padding: 10px 14px 10px 40px;
-  background: var(--surface); border: 1px solid var(--border2);
-  border-radius: 10px; color: var(--text); font-family: var(--font); font-size: 14px;
-  outline: none; transition: border-color 0.2s;
-}
+.search-wrap { flex: 1; max-width: 600px; position: relative; }
+.search-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text3); pointer-events: none; }
+.search-input { width: 100%; padding: 10px 14px 10px 40px; background: var(--surface); border: 1px solid var(--border2); border-radius: 10px; color: var(--text); font-family: var(--font); font-size: 14px; outline: none; transition: border-color 0.2s; }
 .search-input:focus { border-color: var(--accent); }
 .search-input::placeholder { color: var(--text3); }
-
-.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
-.btn-sm { font-family: var(--font); font-size: 13px; font-weight: 500; padding: 6px 14px; border-radius: 8px; cursor: pointer; transition: all 0.15s; text-decoration: none; display: inline-flex; align-items: center; }
-.btn-accent { background: var(--accent); border: none; color: #fff; }
-.btn-accent:hover { background: #7f8fff; }
-
-/* LAYOUT */
-.page { max-width: 1100px; margin: 0 auto; padding: 28px 24px; display: grid; grid-template-columns: 220px 1fr; gap: 24px; }
-
-/* FILTERS */
-.filters { display: flex; flex-direction: column; gap: 20px; }
-.filter-group { }
-.filter-label { font-size: 11px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
-
-.filter-options { display: flex; flex-direction: column; gap: 4px; }
-.filter-opt {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 7px 10px; border-radius: 8px; font-size: 13px; color: var(--text2);
-  cursor: pointer; transition: all 0.15s; border: none; background: transparent;
-  font-family: var(--font); text-align: left; width: 100%;
-}
-.filter-opt:hover { background: var(--surface); color: var(--text); }
-.filter-opt.active { background: var(--accent-dim); color: var(--accent); font-weight: 500; }
-.filter-count { font-size: 11px; background: var(--surface2); color: var(--text3); padding: 1px 6px; border-radius: 10px; }
-
-.filter-divider { height: 1px; background: var(--border); margin: 4px 0; }
-
-.range-group { display: flex; flex-direction: column; gap: 8px; }
-.range-label { display: flex; justify-content: space-between; font-size: 12px; color: var(--text2); }
-.range-val { font-weight: 600; color: var(--text); }
-input[type=range] { width: 100%; accent-color: var(--accent); }
-
-/* RESULTS */
-.results-header {
-  display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;
-}
-.results-count { font-size: 14px; color: var(--text2); }
-.results-count strong { color: var(--text); }
-.sort-select {
-  background: var(--surface); border: 1px solid var(--border2); color: var(--text2);
-  font-family: var(--font); font-size: 13px; padding: 6px 10px; border-radius: 8px;
-  outline: none; cursor: pointer;
-}
-
-/* TYPE TABS */
-.type-tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
-.type-tab {
-  font-family: var(--font); font-size: 13px; font-weight: 500; padding: 6px 14px;
-  border-radius: 20px; border: 1px solid var(--border); background: transparent;
-  color: var(--text2); cursor: pointer; transition: all 0.15s;
-}
-.type-tab:hover { color: var(--text); border-color: var(--border2); }
-.type-tab.active { background: var(--accent-dim); color: var(--accent); border-color: rgba(108,127,255,0.3); }
-
-/* RESULT CARD */
-.result-card {
-  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
-  padding: 16px 20px; margin-bottom: 10px; cursor: pointer;
-  transition: all 0.15s; display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr 0.8fr;
-  align-items: center; gap: 12px;
-}
+.topbar-right { margin-left: auto; }
+.btn-accent { font-family: var(--font); font-size: 13px; font-weight: 600; padding: 7px 16px; border-radius: 8px; border: none; background: var(--accent); color: #fff; cursor: pointer; text-decoration: none; display: inline-flex; }
+.page { max-width: 1000px; margin: 0 auto; padding: 28px 24px; }
+.trending { margin-bottom: 28px; }
+.trending-label { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
+.trending-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.trending-chip { display: flex; align-items: center; gap: 6px; padding: 6px 14px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; font-size: 13px; color: var(--text2); cursor: pointer; transition: all 0.15s; text-decoration: none; }
+.trending-chip:hover { border-color: var(--accent); color: var(--accent); }
+.chg { font-size: 11px; font-weight: 600; }
+.chg.up { color: var(--green); }
+.chg.dn { color: var(--red); }
+.results-label { font-size: 13px; color: var(--text2); margin-bottom: 14px; }
+.results-label strong { color: var(--text); }
+.table-header { display: grid; grid-template-columns: 2fr 1fr 1fr 0.8fr; padding: 0 20px 10px; gap: 12px; font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; }
+.table-header span { text-align: right; }
+.table-header span:first-child { text-align: left; }
+.result-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 20px; margin-bottom: 10px; cursor: pointer; transition: all 0.15s; display: grid; grid-template-columns: 2fr 1fr 1fr 0.8fr; align-items: center; gap: 12px; text-decoration: none; }
 .result-card:hover { border-color: var(--border2); background: var(--surface2); transform: translateX(2px); }
-
 .result-asset { display: flex; align-items: center; gap: 12px; }
-.result-logo {
-  width: 38px; height: 38px; border-radius: 10px;
-  background: var(--surface2); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; color: var(--text3); flex-shrink: 0;
-}
+.result-logo { width: 38px; height: 38px; border-radius: 10px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 700; color: var(--text3); flex-shrink: 0; }
 .result-ticker { font-size: 14px; font-weight: 700; color: var(--text); }
-.result-name { font-size: 12px; color: var(--text3); margin-top: 1px; }
+.result-name { font-size: 12px; color: var(--text3); margin-top: 1px; max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .result-type { font-size: 10px; background: var(--surface2); color: var(--text3); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--border); display: inline-block; margin-top: 3px; }
-
 .result-price { font-size: 14px; font-weight: 600; color: var(--text); text-align: right; }
 .result-change { font-size: 13px; font-weight: 600; text-align: right; }
 .result-change.up { color: var(--green); }
 .result-change.dn { color: var(--red); }
-
-.result-mktcap { font-size: 13px; color: var(--text2); text-align: right; }
-.result-signal-cell { text-align: right; }
-.result-signal {
-  font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px;
-  display: inline-block;
-}
+.result-signal { font-size: 10px; font-weight: 700; padding: 3px 9px; border-radius: 20px; display: inline-block; }
 .result-signal.buy { background: var(--green-dim); color: var(--green); }
 .result-signal.hold { background: var(--amber-dim); color: var(--amber); }
 .result-signal.sell { background: var(--red-dim); color: var(--red); }
-
-/* TABLE HEADER */
-.results-table-header {
-  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 1fr 0.8fr;
-  padding: 0 20px 10px; gap: 12px;
-  font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; font-weight: 500;
-}
-.results-table-header span { text-align: right; }
-.results-table-header span:first-child { text-align: left; }
-
-/* TRENDING */
-.trending-section { margin-bottom: 28px; }
-.trending-label { font-size: 12px; font-weight: 600; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 12px; }
-.trending-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-.trending-chip {
-  display: flex; align-items: center; gap: 6px; padding: 6px 12px;
-  background: var(--surface); border: 1px solid var(--border); border-radius: 20px;
-  font-size: 13px; color: var(--text2); cursor: pointer; transition: all 0.15s;
-}
-.trending-chip:hover { border-color: var(--accent); color: var(--accent); }
-.trending-chip-chg { font-size: 11px; font-weight: 600; }
-.trending-chip-chg.up { color: var(--green); }
-.trending-chip-chg.dn { color: var(--red); }
-
-@media (max-width: 900px) {
-  .page { grid-template-columns: 1fr; }
-  .filters { flex-direction: row; flex-wrap: wrap; }
-  .result-card { grid-template-columns: 1fr 1fr; }
-  .result-mktcap, .result-signal-cell { display: none; }
-  .results-table-header { grid-template-columns: 1fr 1fr; }
-  .results-table-header span:nth-child(n+3) { display: none; }
+.empty { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; }
+.loading { text-align: center; padding: 40px; color: var(--text3); font-size: 13px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner { display: inline-block; width: 20px; height: 20px; border: 2px solid var(--border2); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 8px; }
+@media (max-width: 700px) {
+  .result-card, .table-header { grid-template-columns: 1fr 1fr; }
+  .result-card > *:nth-child(n+3), .table-header span:nth-child(n+3) { display: none; }
 }
 </style>
 </head>
 <body>
-
-<!-- TOPBAR -->
 <header class="topbar">
-  <a class="logo" href="investiq.html"><span class="logo-dot"></span>InvestIQ</a>
-  <div class="search-bar-wrap">
+  <a class="logo" href="index.html"><span class="logo-dot"></span>InvestIQ</a>
+  <div class="search-wrap">
     <span class="search-icon">⌕</span>
-    <input class="search-input" type="text" value="Apple" id="searchInput" placeholder="Search stocks, ETFs, crypto, bonds...">
+    <input class="search-input" id="searchInput" type="text" placeholder="Search any stock, ETF, crypto... e.g. Apple, TSLA, Bitcoin">
   </div>
-  <div class="topbar-right">
-    <a class="btn-sm btn-accent" href="investiq-auth.html">Sign in</a>
-  </div>
+  <div class="topbar-right"><a class="btn-accent" href="investiq-auth.html">Sign in</a></div>
 </header>
 
 <div class="page">
-
-  <!-- FILTERS -->
-  <div class="filters">
-    <div class="filter-group">
-      <div class="filter-label">Asset Type</div>
-      <div class="filter-options">
-        <button class="filter-opt active" onclick="setFilter(this)">All <span class="filter-count">248</span></button>
-        <button class="filter-opt" onclick="setFilter(this)">Stocks <span class="filter-count">184</span></button>
-        <button class="filter-opt" onclick="setFilter(this)">ETFs <span class="filter-count">32</span></button>
-        <button class="filter-opt" onclick="setFilter(this)">Crypto <span class="filter-count">18</span></button>
-        <button class="filter-opt" onclick="setFilter(this)">Bonds <span class="filter-count">9</span></button>
-        <button class="filter-opt" onclick="setFilter(this)">Commodities <span class="filter-count">5</span></button>
-      </div>
-    </div>
-
-    <div class="filter-divider"></div>
-
-    <div class="filter-group">
-      <div class="filter-label">Exchange</div>
-      <div class="filter-options">
-        <button class="filter-opt active" onclick="setFilter(this)">All</button>
-        <button class="filter-opt" onclick="setFilter(this)">NASDAQ</button>
-        <button class="filter-opt" onclick="setFilter(this)">NYSE</button>
-        <button class="filter-opt" onclick="setFilter(this)">LSE</button>
-        <button class="filter-opt" onclick="setFilter(this)">Crypto</button>
-      </div>
-    </div>
-
-    <div class="filter-divider"></div>
-
-    <div class="filter-group">
-      <div class="filter-label">AI Signal</div>
-      <div class="filter-options">
-        <button class="filter-opt active" onclick="setFilter(this)">Any signal</button>
-        <button class="filter-opt" onclick="setFilter(this)" style="color:var(--green)">▲ Buy</button>
-        <button class="filter-opt" onclick="setFilter(this)" style="color:var(--amber)">◎ Hold</button>
-        <button class="filter-opt" onclick="setFilter(this)" style="color:var(--red)">▼ Sell / Reduce</button>
-      </div>
-    </div>
-
-    <div class="filter-divider"></div>
-
-    <div class="filter-group">
-      <div class="filter-label">Market Cap</div>
-      <div class="range-group">
-        <div class="range-label"><span>Min</span><span class="range-val" id="mcVal">$1B+</span></div>
-        <input type="range" min="0" max="4" value="2" oninput="updateMC(this.value)">
-        <div style="display:flex;justify-content:space-between;font-size:10px;color:var(--text3);">
-          <span>Any</span><span>$1B+</span><span>$10B+</span><span>$100B+</span><span>$1T+</span>
-        </div>
-      </div>
+  <div class="trending">
+    <div class="trending-label">🔥 Trending today</div>
+    <div class="trending-chips">
+      <a class="trending-chip" href="investiq-stock.html?symbol=NVDA">NVDA <span class="chg" id="chg-NVDA">—</span></a>
+      <a class="trending-chip" href="investiq-stock.html?symbol=TSLA">TSLA <span class="chg" id="chg-TSLA">—</span></a>
+      <a class="trending-chip" href="investiq-stock.html?symbol=AAPL">AAPL <span class="chg" id="chg-AAPL">—</span></a>
+      <a class="trending-chip" href="investiq-stock.html?symbol=META">META <span class="chg" id="chg-META">—</span></a>
+      <a class="trending-chip" href="investiq-stock.html?symbol=SPY">SPY <span class="chg" id="chg-SPY">—</span></a>
     </div>
   </div>
 
-  <!-- RESULTS -->
-  <div>
-    <!-- TRENDING -->
-    <div class="trending-section">
-      <div class="trending-label">🔥 Trending today</div>
-      <div class="trending-chips">
-        <div class="trending-chip">NVDA <span class="trending-chip-chg dn">−2.14%</span></div>
-        <div class="trending-chip">TSLA <span class="trending-chip-chg up">+3.21%</span></div>
-        <div class="trending-chip">BTC <span class="trending-chip-chg dn">−0.88%</span></div>
-        <div class="trending-chip">META <span class="trending-chip-chg up">+1.44%</span></div>
-        <div class="trending-chip">SPY <span class="trending-chip-chg dn">−0.12%</span></div>
-      </div>
-    </div>
-
-    <!-- TYPE TABS -->
-    <div class="type-tabs">
-      <button class="type-tab active" onclick="setTypeTab(this)">All results</button>
-      <button class="type-tab" onclick="setTypeTab(this)">Best match</button>
-      <button class="type-tab" onclick="setTypeTab(this)">Stocks</button>
-      <button class="type-tab" onclick="setTypeTab(this)">ETFs</button>
-      <button class="type-tab" onclick="setTypeTab(this)">Crypto</button>
-    </div>
-
-    <!-- RESULTS HEADER -->
-    <div class="results-header">
-      <div class="results-count">Showing <strong>248 results</strong> for "Apple"</div>
-      <select class="sort-select">
-        <option>Sort: Relevance</option>
-        <option>Sort: Market Cap ↓</option>
-        <option>Sort: Price Change ↓</option>
-        <option>Sort: Volume ↓</option>
-      </select>
-    </div>
-
-    <div class="results-table-header">
-      <span>Asset</span>
-      <span>Price</span>
-      <span>24h Change</span>
-      <span>Market Cap</span>
-      <span>Volume</span>
-      <span>Signal</span>
-    </div>
-
-    <!-- RESULT ROWS -->
-    <a href="investiq-stock.html" style="text-decoration:none;">
-    <div class="result-card">
-      <div class="result-asset">
-        <div class="result-logo">AAPL</div>
-        <div>
-          <div class="result-ticker">AAPL</div>
-          <div class="result-name">Apple Inc.</div>
-          <span class="result-type">NASDAQ · Stock</span>
-        </div>
-      </div>
-      <div class="result-price">$213.40</div>
-      <div class="result-change up">▲ +1.82%</div>
-      <div class="result-mktcap">$3.28T</div>
-      <div class="result-mktcap">48.2M</div>
-      <div class="result-signal-cell"><span class="result-signal buy">BUY</span></div>
-    </div>
-    </a>
-
-    <div class="result-card">
-      <div class="result-asset">
-        <div class="result-logo">AAPL.L</div>
-        <div>
-          <div class="result-ticker">AAPL.L</div>
-          <div class="result-name">Apple Inc. (London)</div>
-          <span class="result-type">LSE · Stock</span>
-        </div>
-      </div>
-      <div class="result-price">£168.20</div>
-      <div class="result-change up">▲ +1.61%</div>
-      <div class="result-mktcap">$3.28T</div>
-      <div class="result-mktcap">2.1M</div>
-      <div class="result-signal-cell"><span class="result-signal buy">BUY</span></div>
-    </div>
-
-    <div class="result-card">
-      <div class="result-asset">
-        <div class="result-logo">AAPU</div>
-        <div>
-          <div class="result-ticker">AAPU</div>
-          <div class="result-name">Direxion Daily AAPL Bull 2X ETF</div>
-          <span class="result-type">NASDAQ · ETF</span>
-        </div>
-      </div>
-      <div class="result-price">$28.40</div>
-      <div class="result-change up">▲ +3.64%</div>
-      <div class="result-mktcap">$1.2B</div>
-      <div class="result-mktcap">5.8M</div>
-      <div class="result-signal-cell"><span class="result-signal buy">BUY</span></div>
-    </div>
-
-    <div class="result-card">
-      <div class="result-asset">
-        <div class="result-logo">AAPD</div>
-        <div>
-          <div class="result-ticker">AAPD</div>
-          <div class="result-name">Direxion Daily AAPL Bear 1X ETF</div>
-          <span class="result-type">NASDAQ · ETF</span>
-        </div>
-      </div>
-      <div class="result-price">$12.18</div>
-      <div class="result-change dn">▼ −1.90%</div>
-      <div class="result-mktcap">$420M</div>
-      <div class="result-mktcap">3.2M</div>
-      <div class="result-signal-cell"><span class="result-signal sell">SELL</span></div>
-    </div>
-
-    <div class="result-card">
-      <div class="result-asset">
-        <div class="result-logo">QQQ</div>
-        <div>
-          <div class="result-ticker">QQQ</div>
-          <div class="result-name">Invesco QQQ Trust (AAPL 9.1%)</div>
-          <span class="result-type">NASDAQ · ETF</span>
-        </div>
-      </div>
-      <div class="result-price">$448.20</div>
-      <div class="result-change dn">▼ −0.21%</div>
-      <div class="result-mktcap">$240B</div>
-      <div class="result-mktcap">32.4M</div>
-      <div class="result-signal-cell"><span class="result-signal hold">HOLD</span></div>
-    </div>
-
-    <div class="result-card">
-      <div class="result-asset">
-        <div class="result-logo">XLK</div>
-        <div>
-          <div class="result-ticker">XLK</div>
-          <div class="result-name">SPDR Tech ETF (AAPL 23.6%)</div>
-          <span class="result-type">NYSE · ETF</span>
-        </div>
-      </div>
-      <div class="result-price">$224.80</div>
-      <div class="result-change up">▲ +0.74%</div>
-      <div class="result-mktcap">$68B</div>
-      <div class="result-mktcap">8.9M</div>
-      <div class="result-signal-cell"><span class="result-signal buy">BUY</span></div>
-    </div>
-
-    <div class="result-card">
-      <div class="result-asset">
-        <div class="result-logo">AAPL.BA</div>
-        <div>
-          <div class="result-ticker">AAPL.BA</div>
-          <div class="result-name">Apple Inc. (Buenos Aires)</div>
-          <span class="result-type">BCBA · Stock</span>
-        </div>
-      </div>
-      <div class="result-price">$190,240</div>
-      <div class="result-change up">▲ +2.10%</div>
-      <div class="result-mktcap">$3.28T</div>
-      <div class="result-mktcap">14K</div>
-      <div class="result-signal-cell"><span class="result-signal buy">BUY</span></div>
-    </div>
-
-    <!-- PAGINATION -->
-    <div style="display:flex;align-items:center;justify-content:center;gap:6px;margin-top:28px;">
-      <button style="font-family:var(--font);font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text3);cursor:pointer;">←</button>
-      <button style="font-family:var(--font);font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid var(--accent);background:var(--accent-dim);color:var(--accent);cursor:pointer;">1</button>
-      <button style="font-family:var(--font);font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;">2</button>
-      <button style="font-family:var(--font);font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;">3</button>
-      <span style="color:var(--text3);font-size:13px;">...</span>
-      <button style="font-family:var(--font);font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;">32</button>
-      <button style="font-family:var(--font);font-size:13px;padding:6px 12px;border-radius:8px;border:1px solid var(--border2);background:transparent;color:var(--text2);cursor:pointer;">→</button>
-    </div>
+  <div class="results-label" id="resultsLabel">Search for any stock, ETF, or crypto to get started.</div>
+  <div class="table-header" id="tableHeader" style="display:none;">
+    <span>Asset</span><span>Price</span><span>24h Change</span><span>Signal</span>
   </div>
+  <div id="resultsContainer"></div>
 </div>
 
 <script>
-function setFilter(el) {
-  const group = el.closest('.filter-options');
-  group.querySelectorAll('.filter-opt').forEach(o => o.classList.remove('active'));
-  el.classList.add('active');
-}
-function setTypeTab(el) {
-  document.querySelectorAll('.type-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-}
-const mcLabels = ['Any', '$1B+', '$10B+', '$100B+', '$1T+'];
-function updateMC(v) { document.getElementById('mcVal').textContent = mcLabels[v]; }
+const API = 'd74p7thr01qg1eo6cjggd74p7thr01qg1eo6cjh0';
+const q = s => fetch(`https://finnhub.io/api/v1${s}&token=${API}`).then(r=>r.json());
+const clean = s => s.replace(/[^a-zA-Z0-9]/g,'');
 
-// Live search label update
-document.getElementById('searchInput').addEventListener('input', function() {
-  const val = this.value || '...';
-  document.querySelector('.results-count strong').textContent = '248 results';
-  document.querySelector('.results-count').innerHTML = `Showing <strong>248 results</strong> for "${val}"`;
+['NVDA','TSLA','AAPL','META','SPY'].forEach(async sym => {
+  try {
+    const d = await q(`/quote?symbol=${sym}`);
+    const el = document.getElementById(`chg-${sym}`);
+    if (el && d.dp != null) { const up=d.dp>=0; el.textContent=`${up?'+':''}${d.dp.toFixed(2)}%`; el.className=`chg ${up?'up':'dn'}`; }
+  } catch(e){}
 });
+
+const urlQ = new URLSearchParams(window.location.search).get('q');
+if (urlQ) { document.getElementById('searchInput').value=urlQ; doSearch(urlQ); }
+
+let timer;
+document.getElementById('searchInput').addEventListener('input', function() {
+  clearTimeout(timer);
+  const v = this.value.trim();
+  if (!v) { document.getElementById('resultsContainer').innerHTML=''; document.getElementById('tableHeader').style.display='none'; document.getElementById('resultsLabel').textContent='Search for any stock, ETF, or crypto to get started.'; return; }
+  timer = setTimeout(()=>doSearch(v), 450);
+});
+document.getElementById('searchInput').addEventListener('keydown', e => { if(e.key==='Enter'){clearTimeout(timer);doSearch(e.target.value.trim());} });
+
+async function doSearch(query) {
+  if (!query) return;
+  document.getElementById('tableHeader').style.display='none';
+  document.getElementById('resultsLabel').textContent=`Searching...`;
+  document.getElementById('resultsContainer').innerHTML='<div class="loading"><div class="spinner"></div><br>Finding results...</div>';
+  try {
+    const data = await q(`/search?q=${encodeURIComponent(query)}`);
+    const results = (data.result||[]).filter(r=>r.symbol&&r.description).slice(0,10);
+    if (!results.length) { document.getElementById('resultsContainer').innerHTML=`<div class="empty">No results for "${query}".<br>Try a ticker like AAPL, or a company name like Apple.</div>`; document.getElementById('resultsLabel').textContent=`No results for "${query}"`; return; }
+    document.getElementById('resultsLabel').innerHTML=`Showing <strong>${results.length} results</strong> for "${query}"`;
+    document.getElementById('tableHeader').style.display='grid';
+    document.getElementById('resultsContainer').innerHTML=results.map(r=>`
+      <a class="result-card" href="investiq-stock.html?symbol=${encodeURIComponent(r.symbol)}" id="row-${clean(r.symbol)}">
+        <div class="result-asset">
+          <div class="result-logo">${r.symbol.slice(0,4)}</div>
+          <div><div class="result-ticker">${r.symbol}</div><div class="result-name">${r.description}</div><span class="result-type">${r.type||'Stock'}</span></div>
+        </div>
+        <div class="result-price" id="p-${clean(r.symbol)}">—</div>
+        <div class="result-change" id="c-${clean(r.symbol)}">—</div>
+        <div style="text-align:right"><span class="result-signal" id="s-${clean(r.symbol)}">—</span></div>
+      </a>
+    `).join('');
+    results.forEach(async res => {
+      try {
+        const d = await q(`/quote?symbol=${res.symbol}`);
+        const id = clean(res.symbol);
+        const pe=document.getElementById(`p-${id}`), ce=document.getElementById(`c-${id}`), se=document.getElementById(`s-${id}`);
+        if (!pe||!d.c) return;
+        pe.textContent='$'+d.c.toFixed(2);
+        const up=d.d>=0;
+        ce.textContent=`${up?'▲':'▼'} ${up?'+':''}${d.dp?.toFixed(2)}%`;
+        ce.className=`result-change ${up?'up':'dn'}`;
+        const sig=d.dp>1?'buy':d.dp<-1?'sell':'hold';
+        se.textContent=d.dp>1?'BUY':d.dp<-1?'REDUCE':'HOLD';
+        se.className=`result-signal ${sig}`;
+      } catch(e){}
+    });
+  } catch(e) {
+    document.getElementById('resultsContainer').innerHTML='<div class="empty">Something went wrong. Please try again.</div>';
+  }
+}
 </script>
 </body>
 </html>

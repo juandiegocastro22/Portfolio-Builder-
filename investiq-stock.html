@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>InvestIQ — AAPL</title>
+<title>InvestIQ — Stock</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
@@ -20,444 +21,268 @@
 html, body { background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; }
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 10px; }
-
-/* TOPBAR */
-.topbar {
-  position: sticky; top: 0; z-index: 100;
-  display: flex; align-items: center; padding: 0 32px; height: 56px;
-  background: rgba(13,15,20,0.9); backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-}
-.logo { font-family: var(--serif); font-size: 20px; color: var(--text); display: flex; align-items: center; gap: 6px; text-decoration: none; margin-right: 24px; }
+.topbar { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; padding: 0 32px; height: 56px; background: rgba(13,15,20,0.9); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); gap: 16px; }
+.logo { font-family: var(--serif); font-size: 20px; color: var(--text); display: flex; align-items: center; gap: 6px; text-decoration: none; }
 .logo-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
 .breadcrumb { font-size: 13px; color: var(--text3); display: flex; align-items: center; gap: 6px; }
 .breadcrumb a { color: var(--text3); text-decoration: none; }
-.breadcrumb a:hover { color: var(--text2); }
-.topbar-right { margin-left: auto; display: flex; gap: 8px; }
-.btn-sm {
-  font-family: var(--font); font-size: 13px; font-weight: 500; padding: 6px 14px;
-  border-radius: 8px; cursor: pointer; transition: all 0.15s; text-decoration: none;
-  display: inline-flex; align-items: center; gap: 5px;
-}
-.btn-outline { background: transparent; border: 1px solid var(--border2); color: var(--text2); }
-.btn-outline:hover { color: var(--text); border-color: var(--text3); }
-.btn-accent { background: var(--accent); border: none; color: #fff; }
-.btn-accent:hover { background: #7f8fff; }
-
-/* LAYOUT */
+.topbar-right { margin-left: auto; }
+.btn-sm { font-family: var(--font); font-size: 13px; padding: 6px 14px; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; border: 1px solid var(--border2); color: var(--text2); background: transparent; }
 .page { max-width: 1200px; margin: 0 auto; padding: 28px 24px; display: grid; grid-template-columns: 1fr 320px; gap: 20px; }
 .main { display: flex; flex-direction: column; gap: 18px; }
 .sidebar { display: flex; flex-direction: column; gap: 16px; }
-
-/* STOCK HEADER */
 .stock-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
 .stock-identity { display: flex; align-items: center; gap: 14px; }
-.stock-logo {
-  width: 52px; height: 52px; border-radius: 14px;
-  background: var(--surface2); border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 13px; font-weight: 700; color: var(--text2);
-}
-.stock-ticker { font-family: var(--serif); font-size: 32px; color: var(--text); letter-spacing: -0.5px; }
+.stock-logo { width: 52px; height: 52px; border-radius: 14px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--text2); }
+.stock-ticker { font-family: var(--serif); font-size: 32px; color: var(--text); }
 .stock-name { font-size: 14px; color: var(--text2); margin-top: 2px; }
-.stock-tags { display: flex; gap: 6px; margin-top: 6px; }
-.stock-tag {
-  font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 20px;
-  background: var(--surface2); color: var(--text3); border: 1px solid var(--border);
-}
-.stock-price-block { text-align: right; }
+.stock-tags { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.stock-tag { font-size: 10px; padding: 2px 8px; border-radius: 20px; background: var(--surface2); color: var(--text3); border: 1px solid var(--border); }
 .stock-price { font-family: var(--serif); font-size: 40px; color: var(--text); letter-spacing: -1px; line-height: 1; }
 .stock-change { display: flex; align-items: center; gap: 8px; justify-content: flex-end; margin-top: 6px; }
 .change-badge { font-size: 13px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
 .change-badge.up { background: var(--green-dim); color: var(--green); }
 .change-badge.dn { background: var(--red-dim); color: var(--red); }
-.change-meta { font-size: 12px; color: var(--text3); }
-
-/* CARD */
-.card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: 14px; overflow: hidden;
-}
-.card-header {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 16px 20px; border-bottom: 1px solid var(--border);
-}
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+.card-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid var(--border); }
 .card-title { font-size: 14px; font-weight: 600; color: var(--text); }
 .card-body { padding: 20px; }
-
-/* TIMEFRAME TABS */
 .timeframe-tabs { display: flex; gap: 4px; }
-.tf-tab {
-  font-family: var(--font); font-size: 12px; font-weight: 500; padding: 4px 10px;
-  border-radius: 6px; border: none; background: transparent; color: var(--text3); cursor: pointer; transition: all 0.15s;
-}
+.tf-tab { font-family: var(--font); font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 6px; border: none; background: transparent; color: var(--text3); cursor: pointer; }
 .tf-tab.active { background: var(--surface2); color: var(--text); }
-.tf-tab:hover { color: var(--text2); }
-
-/* CHART AREA */
-.chart-area { height: 240px; position: relative; }
-.chart-area svg { display: block; }
-
-/* CHART STATS */
-.chart-stats { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; border-top: 1px solid var(--border); }
+.chart-wrap { padding: 16px 20px 4px; height: 260px; }
+.chart-stats { display: grid; grid-template-columns: repeat(4,1fr); }
 .chart-stat { padding: 14px 16px; border-right: 1px solid var(--border); }
 .chart-stat:last-child { border-right: none; }
 .chart-stat-label { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
 .chart-stat-val { font-size: 14px; font-weight: 600; color: var(--text); }
-
-/* AI SIGNAL CARD */
-.signal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
-.signal-header { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-.signal-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--green-dim); display: flex; align-items: center; justify-content: center; font-size: 16px; }
-.signal-big { font-family: var(--serif); font-size: 28px; color: var(--green); letter-spacing: -0.5px; }
-.signal-label { font-size: 11px; color: var(--text3); font-weight: 500; text-transform: uppercase; letter-spacing: 0.07em; }
-.signal-target { display: flex; justify-content: space-between; align-items: center; margin: 14px 0 10px; padding: 12px 14px; background: var(--surface2); border-radius: 10px; }
-.signal-target-label { font-size: 12px; color: var(--text3); }
-.signal-target-val { font-size: 15px; font-weight: 700; color: var(--text); }
-.confidence-bar { height: 6px; background: var(--surface2); border-radius: 10px; margin: 12px 0 6px; overflow: hidden; }
-.confidence-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--accent), var(--green)); }
-.signal-reasoning { font-size: 12px; color: var(--text2); line-height: 1.65; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); }
-
-/* NEWS */
 .news-item { padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
 .news-item:last-child { border-bottom: none; }
 .news-item:hover .news-headline { color: var(--accent); }
 .news-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
 .news-time { font-size: 11px; color: var(--text3); }
+.news-headline { font-size: 13px; color: var(--text); font-weight: 500; line-height: 1.45; transition: color 0.15s; }
+.news-source { font-size: 11px; color: var(--text3); margin-top: 3px; }
 .news-sentiment { font-size: 10px; font-weight: 600; }
 .news-sentiment.pos { color: var(--green); }
 .news-sentiment.neg { color: var(--red); }
 .news-sentiment.neu { color: var(--text3); }
-.news-headline { font-size: 13px; color: var(--text); font-weight: 500; line-height: 1.45; transition: color 0.15s; }
-.news-source { font-size: 11px; color: var(--text3); margin-top: 3px; }
-
-/* FUNDAMENTALS */
-.fund-grid { display: flex; flex-direction: column; gap: 0; }
-.fund-row { display: flex; justify-content: space-between; align-items: center; padding: 11px 0; border-bottom: 1px solid var(--border); }
+.fund-row { display: flex; justify-content: space-between; padding: 11px 0; border-bottom: 1px solid var(--border); }
 .fund-row:last-child { border-bottom: none; }
 .fund-key { font-size: 13px; color: var(--text2); }
 .fund-val { font-size: 13px; font-weight: 600; color: var(--text); }
-.fund-val.up { color: var(--green); }
-.fund-val.amber { color: var(--amber); }
-
-/* ABOUT */
-.about-text { font-size: 13px; color: var(--text2); line-height: 1.7; }
-.about-text.collapsed { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
-.read-more { font-size: 12px; color: var(--accent); cursor: pointer; margin-top: 8px; display: inline-block; }
-
-/* ADD TO PORTFOLIO */
-.add-btn {
-  width: 100%; padding: 12px; border-radius: 10px; border: none;
-  background: var(--accent); color: #fff; font-family: var(--font);
-  font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s;
-  display: flex; align-items: center; justify-content: center; gap: 6px;
-}
+.signal-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px; }
+.signal-big { font-family: var(--serif); font-size: 28px; }
+.signal-big.buy { color: var(--green); }
+.signal-big.hold { color: var(--amber); }
+.signal-big.sell { color: var(--red); }
+.confidence-bar { height: 6px; background: var(--surface2); border-radius: 10px; margin: 10px 0 6px; overflow: hidden; }
+.confidence-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--accent), var(--green)); }
+.add-btn { width: 100%; padding: 12px; border-radius: 10px; border: none; background: var(--accent); color: #fff; font-family: var(--font); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
 .add-btn:hover { background: #7f8fff; }
-.watchlist-btn {
-  width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border2);
-  background: transparent; color: var(--text2); font-family: var(--font);
-  font-size: 13px; font-weight: 500; cursor: pointer; transition: all 0.2s; margin-top: 8px;
-}
-.watchlist-btn:hover { color: var(--text); border-color: var(--text3); }
-
-/* ANALYST RATINGS */
-.ratings-bar { display: flex; gap: 6px; align-items: stretch; height: 60px; margin-bottom: 12px; border-radius: 8px; overflow: hidden; }
-.rating-seg { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; padding-bottom: 6px; font-size: 10px; font-weight: 600; border-radius: 4px; }
-.rating-seg.buy-s { background: var(--green-dim); color: var(--green); }
-.rating-seg.buy { background: rgba(34,212,138,0.2); color: var(--green); }
-.rating-seg.hold { background: var(--amber-dim); color: var(--amber); }
-.rating-seg.sell { background: var(--red-dim); color: var(--red); }
-
-@media (max-width: 900px) {
-  .page { grid-template-columns: 1fr; }
-  .chart-stats { grid-template-columns: repeat(2,1fr); }
-}
+.watch-btn { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border2); background: transparent; color: var(--text2); font-family: var(--font); font-size: 13px; cursor: pointer; margin-top: 8px; }
+@media (max-width: 900px) { .page { grid-template-columns: 1fr; } .chart-stats { grid-template-columns: repeat(2,1fr); } }
 </style>
 </head>
 <body>
-
-<!-- TOPBAR -->
 <header class="topbar">
-  <a class="logo" href="investiq.html"><span class="logo-dot"></span>InvestIQ</a>
-  <div class="breadcrumb">
-    <a href="#">Markets</a> › <a href="#">US Stocks</a> › <span style="color:var(--text2);">AAPL</span>
-  </div>
-  <div class="topbar-right">
-    <a class="btn-sm btn-outline" href="#">← Back</a>
-  </div>
+  <a class="logo" href="index.html"><span class="logo-dot"></span>InvestIQ</a>
+  <div class="breadcrumb"><a href="investiq-search.html">Markets</a> › <span id="breadSymbol" style="color:var(--text2);">—</span></div>
+  <div class="topbar-right"><a class="btn-sm" href="investiq-search.html">← Back</a></div>
 </header>
-
 <div class="page">
   <div class="main">
-
-    <!-- STOCK HEADER -->
     <div class="stock-header">
       <div class="stock-identity">
-        <div class="stock-logo">AAPL</div>
+        <div class="stock-logo" id="stockLogo">—</div>
         <div>
-          <div class="stock-ticker">AAPL</div>
-          <div class="stock-name">Apple Inc. · NASDAQ</div>
-          <div class="stock-tags">
-            <span class="stock-tag">Technology</span>
-            <span class="stock-tag">Consumer Electronics</span>
-            <span class="stock-tag">Large Cap</span>
-          </div>
+          <div class="stock-ticker" id="stockTicker">—</div>
+          <div class="stock-name" id="stockName">Loading...</div>
+          <div class="stock-tags" id="stockTags"></div>
         </div>
       </div>
-      <div class="stock-price-block">
-        <div class="stock-price">$213.40</div>
-        <div class="stock-change">
-          <span class="change-badge up">▲ +$3.82</span>
-          <span class="change-badge up">+1.82%</span>
-          <span class="change-meta">Today</span>
-        </div>
+      <div style="text-align:right;">
+        <div class="stock-price" id="stockPrice">—</div>
+        <div class="stock-change" id="stockChange"></div>
       </div>
     </div>
-
-    <!-- CHART -->
     <div class="card">
       <div class="card-header">
         <div class="card-title">Price Chart</div>
         <div class="timeframe-tabs">
-          <button class="tf-tab">1D</button>
-          <button class="tf-tab active">1W</button>
-          <button class="tf-tab">1M</button>
-          <button class="tf-tab">3M</button>
-          <button class="tf-tab">1Y</button>
-          <button class="tf-tab">All</button>
+          <button class="tf-tab" onclick="loadCandles(7,this)">1W</button>
+          <button class="tf-tab active" onclick="loadCandles(30,this)">1M</button>
+          <button class="tf-tab" onclick="loadCandles(90,this)">3M</button>
+          <button class="tf-tab" onclick="loadCandles(365,this)">1Y</button>
         </div>
       </div>
-      <div class="chart-area">
-        <svg width="100%" height="240" viewBox="0 0 860 240" preserveAspectRatio="none">
-          <defs>
-            <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#6c7fff" stop-opacity="0.25"/>
-              <stop offset="100%" stop-color="#6c7fff" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <!-- Grid lines -->
-          <line x1="0" y1="50" x2="860" y2="50" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-          <line x1="0" y1="100" x2="860" y2="100" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-          <line x1="0" y1="150" x2="860" y2="150" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-          <line x1="0" y1="200" x2="860" y2="200" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
-          <!-- Price labels -->
-          <text x="10" y="46" fill="rgba(255,255,255,0.2)" font-size="10" font-family="DM Sans">$225</text>
-          <text x="10" y="96" fill="rgba(255,255,255,0.2)" font-size="10" font-family="DM Sans">$215</text>
-          <text x="10" y="146" fill="rgba(255,255,255,0.2)" font-size="10" font-family="DM Sans">$205</text>
-          <text x="10" y="196" fill="rgba(255,255,255,0.2)" font-size="10" font-family="DM Sans">$195</text>
-          <!-- Chart path -->
-          <path d="M40,180 C80,175 100,165 140,160 C180,155 200,170 240,155 C280,140 300,145 340,130 C380,115 400,125 440,110 C480,95 500,120 540,105 C580,90 600,100 640,85 C680,70 700,95 740,80 C780,65 800,75 860,62 L860,240 L40,240 Z" fill="url(#cg)"/>
-          <path d="M40,180 C80,175 100,165 140,160 C180,155 200,170 240,155 C280,140 300,145 340,130 C380,115 400,125 440,110 C480,95 500,120 540,105 C580,90 600,100 640,85 C680,70 700,95 740,80 C780,65 800,75 860,62" fill="none" stroke="#6c7fff" stroke-width="2"/>
-          <!-- Current price dot -->
-          <circle cx="860" cy="62" r="4" fill="#6c7fff"/>
-          <circle cx="860" cy="62" r="8" fill="#6c7fff" opacity="0.2"/>
-        </svg>
-      </div>
+      <div class="chart-wrap"><canvas id="priceChart"></canvas></div>
       <div class="chart-stats">
-        <div class="chart-stat">
-          <div class="chart-stat-label">Open</div>
-          <div class="chart-stat-val">$209.58</div>
-        </div>
-        <div class="chart-stat">
-          <div class="chart-stat-label">High</div>
-          <div class="chart-stat-val" style="color:var(--green)">$214.20</div>
-        </div>
-        <div class="chart-stat">
-          <div class="chart-stat-label">Low</div>
-          <div class="chart-stat-val" style="color:var(--red)">$208.90</div>
-        </div>
-        <div class="chart-stat">
-          <div class="chart-stat-label">Volume</div>
-          <div class="chart-stat-val">48.2M</div>
-        </div>
+        <div class="chart-stat"><div class="chart-stat-label">Open</div><div class="chart-stat-val" id="statOpen">—</div></div>
+        <div class="chart-stat"><div class="chart-stat-label">High</div><div class="chart-stat-val" style="color:var(--green)" id="statHigh">—</div></div>
+        <div class="chart-stat"><div class="chart-stat-label">Low</div><div class="chart-stat-val" style="color:var(--red)" id="statLow">—</div></div>
+        <div class="chart-stat"><div class="chart-stat-label">Prev Close</div><div class="chart-stat-val" id="statPrev">—</div></div>
       </div>
     </div>
-
-    <!-- AI INSIGHT INLINE -->
-    <div style="background:var(--surface);border:1px solid rgba(108,127,255,0.25);border-radius:14px;padding:18px 20px;display:flex;align-items:flex-start;gap:14px;">
-      <div style="width:34px;height:34px;border-radius:10px;background:var(--accent-dim);border:1px solid rgba(108,127,255,0.25);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">✦</div>
-      <div>
-        <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.07em;">AI Analysis</div>
-        <div style="font-size:13px;color:var(--text2);line-height:1.65;">Apple is benefiting from strong services revenue growth (+14% YoY) and iPhone 16 cycle demand. With a P/E of 28.4× slightly above its 5-year average, the stock is <strong style="color:var(--text);">fairly valued to slightly expensive</strong>. However, AI integration across the product line provides a strong growth catalyst for 2026. <strong style="color:var(--green);">Recommendation: BUY</strong> with a 12-month price target of $240.</div>
-      </div>
-    </div>
-
-    <!-- NEWS -->
     <div class="card">
-      <div class="card-header">
-        <div class="card-title">Latest News</div>
-        <div style="font-size:12px;color:var(--accent);cursor:pointer;">All news →</div>
-      </div>
-      <div class="card-body" style="padding-top:4px;">
-        <div class="news-item">
-          <div class="news-meta">
-            <span class="news-time">14 min ago</span>
-            <span class="news-sentiment pos">● Positive</span>
-          </div>
-          <div class="news-headline">Apple Vision Pro shipments reportedly up 3× as company prepares major software update</div>
-          <div class="news-source">Bloomberg · 3 min read</div>
-        </div>
-        <div class="news-item">
-          <div class="news-meta">
-            <span class="news-time">2h ago</span>
-            <span class="news-sentiment pos">● Positive</span>
-          </div>
-          <div class="news-headline">Apple Intelligence features drive record App Store spending in Q1 2026</div>
-          <div class="news-source">Reuters · 4 min read</div>
-        </div>
-        <div class="news-item">
-          <div class="news-meta">
-            <span class="news-time">5h ago</span>
-            <span class="news-sentiment neu">● Neutral</span>
-          </div>
-          <div class="news-headline">Apple supplier Foxconn reports steady production — no disruption to iPhone 17 timeline</div>
-          <div class="news-source">The Verge · 2 min read</div>
-        </div>
-        <div class="news-item">
-          <div class="news-meta">
-            <span class="news-time">Yesterday</span>
-            <span class="news-sentiment neg">● Negative</span>
-          </div>
-          <div class="news-headline">EU digital markets act could force Apple to open App Store further, analysts warn</div>
-          <div class="news-source">Financial Times · 5 min read</div>
-        </div>
-      </div>
+      <div class="card-header"><div class="card-title">Latest News</div></div>
+      <div class="card-body" style="padding-top:4px;" id="newsContainer"><div style="color:var(--text3);font-size:13px;">Loading news...</div></div>
     </div>
-
-    <!-- FUNDAMENTALS -->
     <div class="card">
       <div class="card-header"><div class="card-title">Fundamentals</div></div>
-      <div class="card-body" style="padding-top:4px;padding-bottom:4px;">
-        <div class="fund-grid">
-          <div class="fund-row"><span class="fund-key">Market Cap</span><span class="fund-val">$3.28T</span></div>
-          <div class="fund-row"><span class="fund-key">P/E Ratio</span><span class="fund-val amber">28.4×</span></div>
-          <div class="fund-row"><span class="fund-key">EPS (TTM)</span><span class="fund-val">$7.51</span></div>
-          <div class="fund-row"><span class="fund-key">Revenue (TTM)</span><span class="fund-val">$391B</span></div>
-          <div class="fund-row"><span class="fund-key">Revenue Growth</span><span class="fund-val up">+8.2% YoY</span></div>
-          <div class="fund-row"><span class="fund-key">Gross Margin</span><span class="fund-val up">46.2%</span></div>
-          <div class="fund-row"><span class="fund-key">Dividend Yield</span><span class="fund-val">0.51%</span></div>
-          <div class="fund-row"><span class="fund-key">52-Week Range</span><span class="fund-val">$164.08 – $237.23</span></div>
-          <div class="fund-row"><span class="fund-key">Beta</span><span class="fund-val">1.24</span></div>
-        </div>
-      </div>
+      <div class="card-body" style="padding-top:4px;padding-bottom:4px;" id="fundamentals"><div style="color:var(--text3);font-size:13px;">Loading...</div></div>
     </div>
-
-    <!-- ABOUT -->
-    <div class="card">
-      <div class="card-header"><div class="card-title">About Apple Inc.</div></div>
-      <div class="card-body">
-        <div class="about-text collapsed" id="aboutText">Apple Inc. designs, manufactures, and markets smartphones, personal computers, tablets, wearables, and accessories worldwide. The company offers iPhone, Mac, iPad, and wearables such as Apple Watch and AirPods. It also provides AppleCare, iCloud, Apple TV+, Apple Arcade, Apple Music, Apple Fitness+, and a portfolio of consumer and professional software applications. Apple sells its products through its retail and online stores, and direct sales force. The company was founded in 1976 and is headquartered in Cupertino, California.</div>
-        <span class="read-more" onclick="toggleAbout()">Read more</span>
-      </div>
-    </div>
-
   </div>
-
-  <!-- SIDEBAR -->
   <div class="sidebar">
-
-    <!-- AI SIGNAL -->
     <div class="signal-card">
-      <div class="signal-header">
-        <div class="signal-icon">🤖</div>
-        <div>
-          <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;font-weight:500;margin-bottom:2px;">AI Signal</div>
-          <div class="signal-big">BUY</div>
-        </div>
-      </div>
-      <div class="signal-target">
-        <span class="signal-target-label">12-mo target</span>
-        <span class="signal-target-val">$240.00</span>
-      </div>
-      <div style="font-size:11px;color:var(--text3);margin-bottom:4px;">Confidence</div>
-      <div class="confidence-bar"><div class="confidence-fill" style="width:78%"></div></div>
-      <div style="font-size:12px;color:var(--text2);">78% confidence · Updated 2h ago</div>
-      <div class="signal-reasoning">
-        Strong services growth, AI product integration, and robust free cash flow support the bullish thesis. Key risk: valuation is slightly stretched vs. historical average.
-      </div>
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;font-weight:500;margin-bottom:8px;">AI Signal</div>
+      <div class="signal-big" id="aiSignal">—</div>
+      <div style="font-size:12px;color:var(--text3);margin-top:8px;">12-mo target</div>
+      <div style="font-size:18px;font-weight:700;color:var(--text);margin-top:2px;" id="aiTarget">—</div>
+      <div style="font-size:11px;color:var(--text3);margin-top:12px;">Confidence</div>
+      <div class="confidence-bar"><div class="confidence-fill" id="confBar" style="width:0%"></div></div>
+      <div style="font-size:12px;color:var(--text2);" id="confLabel">Calculating...</div>
+      <div style="font-size:12px;color:var(--text2);margin-top:12px;padding-top:12px;border-top:1px solid var(--border);line-height:1.65;" id="aiReason">Analysing...</div>
     </div>
-
-    <!-- ADD TO PORTFOLIO -->
     <div class="card">
       <div class="card-header"><div class="card-title">Portfolio</div></div>
       <div class="card-body">
-        <div style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.6;">You don't hold AAPL yet. Add it to start tracking your position.</div>
-        <button class="add-btn">+ Add to Portfolio</button>
-        <button class="watchlist-btn">☆ Add to Watchlist</button>
+        <div style="font-size:12px;color:var(--text2);margin-bottom:14px;line-height:1.6;">Track this asset and monitor your position performance.</div>
+        <button class="add-btn" onclick="addToPortfolio()">+ Add to Portfolio</button>
+        <button class="watch-btn" onclick="addToWatchlist()">☆ Add to Watchlist</button>
       </div>
     </div>
-
-    <!-- ANALYST RATINGS -->
     <div class="card">
       <div class="card-header"><div class="card-title">Analyst Ratings</div></div>
-      <div class="card-body">
-        <div class="ratings-bar">
-          <div class="rating-seg buy-s" style="width:40%">Strong Buy<br>18</div>
-          <div class="rating-seg buy" style="width:28%">Buy<br>12</div>
-          <div class="rating-seg hold" style="width:22%">Hold<br>10</div>
-          <div class="rating-seg sell" style="width:10%">Sell<br>4</div>
-        </div>
-        <div style="font-size:12px;color:var(--text2);">44 analysts · Avg target: <strong style="color:var(--text);">$238.50</strong></div>
-        <div style="margin-top:12px;font-size:12px;color:var(--text3);">Consensus: <strong style="color:var(--green);">BUY</strong></div>
-      </div>
+      <div class="card-body" id="analystCard"><div style="color:var(--text3);font-size:13px;">Loading...</div></div>
     </div>
-
-    <!-- SIMILAR -->
-    <div class="card">
-      <div class="card-header"><div class="card-title">Similar Assets</div></div>
-      <div style="display:flex;flex-direction:column;gap:0;">
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 20px;border-bottom:1px solid var(--border);cursor:pointer;" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background=''">
-          <div>
-            <div style="font-size:13px;font-weight:600;color:var(--text)">MSFT</div>
-            <div style="font-size:11px;color:var(--text3)">Microsoft</div>
-          </div>
-          <div style="text-align:right">
-            <div style="font-size:13px;color:var(--text)">$421.80</div>
-            <div style="font-size:11px;color:var(--green)">+0.54%</div>
-          </div>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 20px;border-bottom:1px solid var(--border);cursor:pointer;" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background=''">
-          <div>
-            <div style="font-size:13px;font-weight:600;color:var(--text)">GOOG</div>
-            <div style="font-size:11px;color:var(--text3)">Alphabet</div>
-          </div>
-          <div style="text-align:right">
-            <div style="font-size:13px;color:var(--text)">$172.40</div>
-            <div style="font-size:11px;color:var(--green)">+0.33%</div>
-          </div>
-        </div>
-        <div style="display:flex;justify-content:space-between;align-items:center;padding:11px 20px;cursor:pointer;" onmouseenter="this.style.background='var(--surface2)'" onmouseleave="this.style.background=''">
-          <div>
-            <div style="font-size:13px;font-weight:600;color:var(--text)">QQQ</div>
-            <div style="font-size:11px;color:var(--text3)">Invesco Nasdaq ETF</div>
-          </div>
-          <div style="text-align:right">
-            <div style="font-size:13px;color:var(--text)">$448.20</div>
-            <div style="font-size:11px;color:var(--red)">−0.21%</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
   </div>
 </div>
-
 <script>
-let aboutExpanded = false;
-function toggleAbout() {
-  const el = document.getElementById('aboutText');
-  const btn = el.nextElementSibling;
-  aboutExpanded = !aboutExpanded;
-  el.classList.toggle('collapsed', !aboutExpanded);
-  btn.textContent = aboutExpanded ? 'Show less' : 'Read more';
+const API_KEY = 'd74p7thr01qg1eo6cjggd74p7thr01qg1eo6cjh0';
+const SYMBOL = new URLSearchParams(window.location.search).get('symbol') || 'AAPL';
+let chart = null, currentQuote = null;
+
+const api = async path => (await fetch(`https://finnhub.io/api/v1${path}&token=${API_KEY}`)).json();
+const fmt = n => n ? '$' + Number(n).toFixed(2) : '—';
+const fmtBig = n => { if(!n)return'—'; if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T'; if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B'; if(n>=1e6)return'$'+(n/1e6).toFixed(2)+'M'; return'$'+n.toFixed(0); };
+const timeAgo = d => { const s=(Date.now()-d.getTime())/1000; if(s<3600)return Math.round(s/60)+'m ago'; if(s<86400)return Math.round(s/3600)+'h ago'; return Math.round(s/86400)+'d ago'; };
+
+async function loadQuote() {
+  const d = await api(`/quote?symbol=${SYMBOL}`);
+  currentQuote = d;
+  document.getElementById('breadSymbol').textContent = SYMBOL;
+  document.getElementById('stockLogo').textContent = SYMBOL.slice(0,4);
+  document.getElementById('stockTicker').textContent = SYMBOL;
+  document.getElementById('stockPrice').textContent = fmt(d.c);
+  const up = d.d >= 0;
+  document.getElementById('stockChange').innerHTML = `<span class="change-badge ${up?'up':'dn'}">${up?'▲':'▼'} ${fmt(Math.abs(d.d))}</span><span class="change-badge ${up?'up':'dn'}">${up?'+':''}${d.dp?.toFixed(2)}%</span><span style="font-size:12px;color:var(--text3)">Today</span>`;
+  document.getElementById('statOpen').textContent = fmt(d.o);
+  document.getElementById('statHigh').textContent = fmt(d.h);
+  document.getElementById('statLow').textContent = fmt(d.l);
+  document.getElementById('statPrev').textContent = fmt(d.pc);
+  generateSignal(d);
 }
 
-document.querySelectorAll('.tf-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tf-tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
+async function loadProfile() {
+  const d = await api(`/stock/profile2?symbol=${SYMBOL}`);
+  if (d.name) document.getElementById('stockName').textContent = `${d.name} · ${d.exchange||''}`;
+  const tags = document.getElementById('stockTags');
+  if (d.finnhubIndustry) tags.innerHTML += `<span class="stock-tag">${d.finnhubIndustry}</span>`;
+  if (d.country) tags.innerHTML += `<span class="stock-tag">${d.country}</span>`;
+  const mc = d.marketCapitalization ? d.marketCapitalization * 1e6 : null;
+  document.getElementById('fundamentals').innerHTML = `
+    <div class="fund-row"><span class="fund-key">Market Cap</span><span class="fund-val">${fmtBig(mc)}</span></div>
+    <div class="fund-row"><span class="fund-key">Exchange</span><span class="fund-val">${d.exchange||'—'}</span></div>
+    <div class="fund-row"><span class="fund-key">Industry</span><span class="fund-val">${d.finnhubIndustry||'—'}</span></div>
+    <div class="fund-row"><span class="fund-key">Country</span><span class="fund-val">${d.country||'—'}</span></div>
+    <div class="fund-row"><span class="fund-key">IPO Date</span><span class="fund-val">${d.ipo||'—'}</span></div>
+    <div class="fund-row"><span class="fund-key">Shares Outstanding</span><span class="fund-val">${d.shareOutstanding?(d.shareOutstanding/1e3).toFixed(2)+'B':'—'}</span></div>
+    ${d.weburl?`<div class="fund-row"><span class="fund-key">Website</span><span class="fund-val"><a href="${d.weburl}" target="_blank" style="color:var(--accent);text-decoration:none;">${d.weburl.replace(/https?:\/\//,'').split('/')[0]}</a></span></div>`:''}
+  `;
+  if (d.name) document.title = `InvestIQ — ${d.name}`;
+}
+
+async function loadNews() {
+  const to = new Date().toISOString().split('T')[0];
+  const from = new Date(Date.now()-7*864e5).toISOString().split('T')[0];
+  const news = await api(`/company-news?symbol=${SYMBOL}&from=${from}&to=${to}`);
+  const c = document.getElementById('newsContainer');
+  if (!news?.length) { c.innerHTML = '<div style="color:var(--text3);font-size:13px;">No recent news found.</div>'; return; }
+  c.innerHTML = news.slice(0,6).map(n => {
+    const sent = n.sentiment > 0.1 ? 'pos' : n.sentiment < -0.1 ? 'neg' : 'neu';
+    const sentLabel = sent==='pos'?'● Positive':sent==='neg'?'● Negative':'● Neutral';
+    return `<div class="news-item" onclick="window.open('${n.url}','_blank')">
+      <div class="news-meta"><span class="news-time">${timeAgo(new Date(n.datetime*1000))}</span><span class="news-sentiment ${sent}">${sentLabel}</span></div>
+      <div class="news-headline">${n.headline}</div>
+      <div class="news-source">${n.source}</div>
+    </div>`;
+  }).join('');
+}
+
+async function loadRecommendations() {
+  const data = await api(`/stock/recommendation?symbol=${SYMBOL}`);
+  const card = document.getElementById('analystCard');
+  if (!data?.length) { card.innerHTML='<div style="color:var(--text3);font-size:13px;">No analyst data.</div>'; return; }
+  const l = data[0];
+  const total = (l.strongBuy||0)+(l.buy||0)+(l.hold||0)+(l.sell||0)+(l.strongSell||0);
+  const buyPct = total ? Math.round(((l.strongBuy+l.buy)/total)*100) : 0;
+  const holdPct = total ? Math.round((l.hold/total)*100) : 0;
+  const sellPct = total ? Math.round(((l.sell+l.strongSell)/total)*100) : 0;
+  card.innerHTML = `
+    <div style="display:flex;gap:6px;height:60px;margin-bottom:12px;border-radius:8px;overflow:hidden;">
+      <div style="width:${buyPct}%;background:var(--green-dim);color:var(--green);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font-size:10px;font-weight:700;border-radius:4px;min-width:30px;">Buy<br>${l.strongBuy+l.buy}</div>
+      <div style="width:${holdPct}%;background:var(--amber-dim);color:var(--amber);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font-size:10px;font-weight:700;border-radius:4px;min-width:30px;">Hold<br>${l.hold}</div>
+      <div style="width:${Math.max(sellPct,5)}%;background:var(--red-dim);color:var(--red);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font-size:10px;font-weight:700;border-radius:4px;min-width:30px;">Sell<br>${l.sell+l.strongSell}</div>
+    </div>
+    <div style="font-size:12px;color:var(--text2);">${total} analysts · ${l.period}</div>
+    <div style="margin-top:10px;font-size:12px;color:var(--text3);">Consensus: <strong style="color:${buyPct>50?'var(--green)':holdPct>50?'var(--amber)':'var(--red)'};">${buyPct>50?'BUY':holdPct>50?'HOLD':'SELL'}</strong></div>
+  `;
+}
+
+async function loadCandles(days, btn) {
+  if (btn) { document.querySelectorAll('.tf-tab').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); }
+  const to = Math.floor(Date.now()/1000);
+  const from = to - days*86400;
+  const res = days <= 7 ? '60' : 'D';
+  const d = await api(`/stock/candle?symbol=${SYMBOL}&resolution=${res}&from=${from}&to=${to}`);
+  if (!d || d.s !== 'ok' || !d.c) return;
+  const labels = d.t.map(ts => new Date(ts*1000).toLocaleDateString('en-US',{month:'short',day:'numeric'}));
+  const isUp = d.c[d.c.length-1] >= d.c[0];
+  const color = isUp ? '#22d48a' : '#ff5f6e';
+  if (chart) chart.destroy();
+  const ctx = document.getElementById('priceChart').getContext('2d');
+  const grad = ctx.createLinearGradient(0,0,0,240);
+  grad.addColorStop(0, isUp?'rgba(34,212,138,0.2)':'rgba(255,95,110,0.2)');
+  grad.addColorStop(1,'rgba(0,0,0,0)');
+  chart = new Chart(ctx, {
+    type:'line',
+    data:{ labels, datasets:[{ data:d.c, borderColor:color, borderWidth:2, backgroundColor:grad, fill:true, tension:0.3, pointRadius:0, pointHoverRadius:4, pointHoverBackgroundColor:color }] },
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'#1c2030', borderColor:'rgba(255,255,255,0.1)', borderWidth:1, titleColor:'#8891aa', bodyColor:'#eef0f8', padding:10, callbacks:{label:c=>'$'+c.parsed.y.toFixed(2)} } },
+      scales:{ x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555f7a',font:{size:11},maxTicksLimit:8}}, y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555f7a',font:{size:11},callback:v=>'$'+v.toFixed(0)},position:'right'} }
+    }
   });
-});
+}
+
+function generateSignal(q) {
+  const dp = q.dp||0;
+  let signal, cls, conf, reason, target;
+  if (dp > 1.5) { signal='BUY'; cls='buy'; conf=Math.min(95,72+dp*2); reason=`Strong upward momentum with ${dp.toFixed(2)}% gain today. Price near daily highs suggests continued buying pressure.`; target=(q.c*1.12).toFixed(2); }
+  else if (dp < -1.5) { signal='REDUCE'; cls='sell'; conf=Math.min(90,68+Math.abs(dp)*2); reason=`Selling pressure with ${dp.toFixed(2)}% decline today. Consider reducing exposure and waiting for stabilisation.`; target=(q.c*0.95).toFixed(2); }
+  else { signal='HOLD'; cls='hold'; conf=72; reason='Consolidating near current levels. Wait for a clearer directional signal before adding or reducing positions.'; target=(q.c*1.08).toFixed(2); }
+  document.getElementById('aiSignal').textContent = signal;
+  document.getElementById('aiSignal').className = `signal-big ${cls}`;
+  document.getElementById('aiTarget').textContent = '$'+target;
+  document.getElementById('confBar').style.width = conf+'%';
+  document.getElementById('confLabel').textContent = Math.round(conf)+'% confidence';
+  document.getElementById('aiReason').textContent = reason;
+}
+
+function addToPortfolio() { alert(`✓ ${SYMBOL} added to your portfolio!\n\n(Full portfolio tracking coming in the next update)`); }
+function addToWatchlist() { alert(`☆ ${SYMBOL} added to your watchlist!\n\n(Watchlist feature coming soon)`); }
+
+loadQuote(); loadProfile(); loadNews(); loadRecommendations(); loadCandles(30, null);
 </script>
 </body>
 </html>

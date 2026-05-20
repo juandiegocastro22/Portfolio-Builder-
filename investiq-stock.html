@@ -9,31 +9,33 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0d0f14; --surface: #151820; --surface2: #1c2030; --surface3: #232840;
+  --bg: #0a0a0a; --surface: #141414; --surface2: #1e1e1e; --surface3: #282828;
   --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
-  --text: #eef0f8; --text2: #8891aa; --text3: #555f7a;
+  --text: #f0f0f0; --text2: #9a9a9a; --text3: #555555;
+  --orange: #f97316; --orange-dim: rgba(249,115,22,0.15);
   --green: #22d48a; --green-dim: rgba(34,212,138,0.12);
   --red: #ff5f6e; --red-dim: rgba(255,95,110,0.12);
   --amber: #f5a623; --amber-dim: rgba(245,166,35,0.12);
-  --accent: #6c7fff; --accent-dim: rgba(108,127,255,0.15);
   --font: 'DM Sans', sans-serif; --serif: 'DM Serif Display', serif;
 }
 html, body { background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; }
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 10px; }
-.topbar { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; padding: 0 32px; height: 56px; background: rgba(13,15,20,0.9); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); gap: 16px; }
+.topbar { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; padding: 0 32px; height: 56px; background: rgba(10,10,10,0.9); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); gap: 16px; }
 .logo { font-family: var(--serif); font-size: 20px; color: var(--text); display: flex; align-items: center; gap: 6px; text-decoration: none; }
-.logo-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+.logo-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); }
 .breadcrumb { font-size: 13px; color: var(--text3); display: flex; align-items: center; gap: 6px; }
 .breadcrumb a { color: var(--text3); text-decoration: none; }
+.breadcrumb a:hover { color: var(--orange); }
 .topbar-right { margin-left: auto; }
-.btn-sm { font-family: var(--font); font-size: 13px; padding: 6px 14px; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; border: 1px solid var(--border2); color: var(--text2); background: transparent; }
+.btn-sm { font-family: var(--font); font-size: 13px; padding: 6px 14px; border-radius: 8px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; border: 1px solid var(--border2); color: var(--text2); background: transparent; transition: all 0.15s; }
+.btn-sm:hover { color: var(--orange); border-color: var(--orange); }
 .page { max-width: 1200px; margin: 0 auto; padding: 28px 24px; display: grid; grid-template-columns: 1fr 320px; gap: 20px; }
 .main { display: flex; flex-direction: column; gap: 18px; }
 .sidebar { display: flex; flex-direction: column; gap: 16px; }
 .stock-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
 .stock-identity { display: flex; align-items: center; gap: 14px; }
-.stock-logo { width: 52px; height: 52px; border-radius: 14px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--text2); }
+.stock-logo { width: 52px; height: 52px; border-radius: 14px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: var(--orange); }
 .stock-ticker { font-family: var(--serif); font-size: 32px; color: var(--text); }
 .stock-name { font-size: 14px; color: var(--text2); margin-top: 2px; }
 .stock-tags { display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
@@ -48,8 +50,9 @@ html, body { background: var(--bg); color: var(--text); font-family: var(--font)
 .card-title { font-size: 14px; font-weight: 600; color: var(--text); }
 .card-body { padding: 20px; }
 .timeframe-tabs { display: flex; gap: 4px; }
-.tf-tab { font-family: var(--font); font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 6px; border: none; background: transparent; color: var(--text3); cursor: pointer; }
-.tf-tab.active { background: var(--surface2); color: var(--text); }
+.tf-tab { font-family: var(--font); font-size: 12px; font-weight: 500; padding: 4px 10px; border-radius: 6px; border: none; background: transparent; color: var(--text3); cursor: pointer; transition: all 0.15s; }
+.tf-tab.active { background: var(--orange-dim); color: var(--orange); }
+.tf-tab:hover { color: var(--text2); }
 .chart-wrap { padding: 16px 20px 4px; height: 260px; }
 .chart-stats { display: grid; grid-template-columns: repeat(4,1fr); }
 .chart-stat { padding: 14px 16px; border-right: 1px solid var(--border); }
@@ -58,7 +61,7 @@ html, body { background: var(--bg); color: var(--text); font-family: var(--font)
 .chart-stat-val { font-size: 14px; font-weight: 600; color: var(--text); }
 .news-item { padding: 14px 0; border-bottom: 1px solid var(--border); cursor: pointer; }
 .news-item:last-child { border-bottom: none; }
-.news-item:hover .news-headline { color: var(--accent); }
+.news-item:hover .news-headline { color: var(--orange); }
 .news-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 5px; }
 .news-time { font-size: 11px; color: var(--text3); }
 .news-headline { font-size: 13px; color: var(--text); font-weight: 500; line-height: 1.45; transition: color 0.15s; }
@@ -77,10 +80,14 @@ html, body { background: var(--bg); color: var(--text); font-family: var(--font)
 .signal-big.hold { color: var(--amber); }
 .signal-big.sell { color: var(--red); }
 .confidence-bar { height: 6px; background: var(--surface2); border-radius: 10px; margin: 10px 0 6px; overflow: hidden; }
-.confidence-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--accent), var(--green)); }
-.add-btn { width: 100%; padding: 12px; border-radius: 10px; border: none; background: var(--accent); color: #fff; font-family: var(--font); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
-.add-btn:hover { background: #7f8fff; }
-.watch-btn { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border2); background: transparent; color: var(--text2); font-family: var(--font); font-size: 13px; cursor: pointer; margin-top: 8px; }
+.confidence-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, var(--orange), var(--green)); }
+.add-btn { width: 100%; padding: 12px; border-radius: 10px; border: none; background: var(--orange); color: #fff; font-family: var(--font); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+.add-btn:hover { background: #ea6a0a; }
+.watch-btn { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid var(--border2); background: transparent; color: var(--text2); font-family: var(--font); font-size: 13px; cursor: pointer; margin-top: 8px; transition: all 0.15s; }
+.watch-btn:hover { border-color: var(--orange); color: var(--orange); }
+/* AI insight strip */
+.ai-strip { background: var(--surface); border: 1px solid rgba(249,115,22,0.25); border-radius: 14px; padding: 18px 20px; display: flex; align-items: flex-start; gap: 14px; }
+.ai-strip-icon { width: 34px; height: 34px; border-radius: 10px; background: var(--orange-dim); border: 1px solid rgba(249,115,22,0.3); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
 @media (max-width: 900px) { .page { grid-template-columns: 1fr; } .chart-stats { grid-template-columns: repeat(2,1fr); } }
 </style>
 </head>
@@ -106,6 +113,7 @@ html, body { background: var(--bg); color: var(--text); font-family: var(--font)
         <div class="stock-change" id="stockChange"></div>
       </div>
     </div>
+
     <div class="card">
       <div class="card-header">
         <div class="card-title">Price Chart</div>
@@ -124,15 +132,26 @@ html, body { background: var(--bg); color: var(--text); font-family: var(--font)
         <div class="chart-stat"><div class="chart-stat-label">Prev Close</div><div class="chart-stat-val" id="statPrev">—</div></div>
       </div>
     </div>
+
+    <div class="ai-strip">
+      <div class="ai-strip-icon">✦</div>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--orange);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.07em;">AI Analysis</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.65;" id="aiAnalysis">Analysing market data...</div>
+      </div>
+    </div>
+
     <div class="card">
       <div class="card-header"><div class="card-title">Latest News</div></div>
       <div class="card-body" style="padding-top:4px;" id="newsContainer"><div style="color:var(--text3);font-size:13px;">Loading news...</div></div>
     </div>
+
     <div class="card">
       <div class="card-header"><div class="card-title">Fundamentals</div></div>
       <div class="card-body" style="padding-top:4px;padding-bottom:4px;" id="fundamentals"><div style="color:var(--text3);font-size:13px;">Loading...</div></div>
     </div>
   </div>
+
   <div class="sidebar">
     <div class="signal-card">
       <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.07em;font-weight:500;margin-bottom:8px;">AI Signal</div>
@@ -144,6 +163,7 @@ html, body { background: var(--bg); color: var(--text); font-family: var(--font)
       <div style="font-size:12px;color:var(--text2);" id="confLabel">Calculating...</div>
       <div style="font-size:12px;color:var(--text2);margin-top:12px;padding-top:12px;border-top:1px solid var(--border);line-height:1.65;" id="aiReason">Analysing...</div>
     </div>
+
     <div class="card">
       <div class="card-header"><div class="card-title">Portfolio</div></div>
       <div class="card-body">
@@ -152,19 +172,20 @@ html, body { background: var(--bg); color: var(--text); font-family: var(--font)
         <button class="watch-btn" onclick="addToWatchlist()">☆ Add to Watchlist</button>
       </div>
     </div>
+
     <div class="card">
       <div class="card-header"><div class="card-title">Analyst Ratings</div></div>
       <div class="card-body" id="analystCard"><div style="color:var(--text3);font-size:13px;">Loading...</div></div>
     </div>
   </div>
 </div>
+
 <script>
 const API_KEY = 'd74p7thr01qg1eo6cjggd74p7thr01qg1eo6cjh0';
 const SYMBOL = new URLSearchParams(window.location.search).get('symbol') || 'AAPL';
 let chart = null, currentQuote = null;
-
-const api = async path => (await fetch(`https://finnhub.io/api/v1${path}&token=${API_KEY}`)).json();
-const fmt = n => n ? '$' + Number(n).toFixed(2) : '—';
+const api = async p => (await fetch(`https://finnhub.io/api/v1${p}&token=${API_KEY}`)).json();
+const fmt = n => n ? '$'+Number(n).toFixed(2) : '—';
 const fmtBig = n => { if(!n)return'—'; if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T'; if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B'; if(n>=1e6)return'$'+(n/1e6).toFixed(2)+'M'; return'$'+n.toFixed(0); };
 const timeAgo = d => { const s=(Date.now()-d.getTime())/1000; if(s<3600)return Math.round(s/60)+'m ago'; if(s<86400)return Math.round(s/3600)+'h ago'; return Math.round(s/86400)+'d ago'; };
 
@@ -198,7 +219,7 @@ async function loadProfile() {
     <div class="fund-row"><span class="fund-key">Country</span><span class="fund-val">${d.country||'—'}</span></div>
     <div class="fund-row"><span class="fund-key">IPO Date</span><span class="fund-val">${d.ipo||'—'}</span></div>
     <div class="fund-row"><span class="fund-key">Shares Outstanding</span><span class="fund-val">${d.shareOutstanding?(d.shareOutstanding/1e3).toFixed(2)+'B':'—'}</span></div>
-    ${d.weburl?`<div class="fund-row"><span class="fund-key">Website</span><span class="fund-val"><a href="${d.weburl}" target="_blank" style="color:var(--accent);text-decoration:none;">${d.weburl.replace(/https?:\/\//,'').split('/')[0]}</a></span></div>`:''}
+    ${d.weburl?`<div class="fund-row"><span class="fund-key">Website</span><span class="fund-val"><a href="${d.weburl}" target="_blank" style="color:var(--orange);text-decoration:none;">${d.weburl.replace(/https?:\/\//,'').split('/')[0]}</a></span></div>`:''}
   `;
   if (d.name) document.title = `InvestIQ — ${d.name}`;
 }
@@ -208,7 +229,7 @@ async function loadNews() {
   const from = new Date(Date.now()-7*864e5).toISOString().split('T')[0];
   const news = await api(`/company-news?symbol=${SYMBOL}&from=${from}&to=${to}`);
   const c = document.getElementById('newsContainer');
-  if (!news?.length) { c.innerHTML = '<div style="color:var(--text3);font-size:13px;">No recent news found.</div>'; return; }
+  if (!news?.length) { c.innerHTML='<div style="color:var(--text3);font-size:13px;">No recent news found.</div>'; return; }
   c.innerHTML = news.slice(0,6).map(n => {
     const sent = n.sentiment > 0.1 ? 'pos' : n.sentiment < -0.1 ? 'neg' : 'neu';
     const sentLabel = sent==='pos'?'● Positive':sent==='neg'?'● Negative':'● Neutral';
@@ -224,16 +245,15 @@ async function loadRecommendations() {
   const data = await api(`/stock/recommendation?symbol=${SYMBOL}`);
   const card = document.getElementById('analystCard');
   if (!data?.length) { card.innerHTML='<div style="color:var(--text3);font-size:13px;">No analyst data.</div>'; return; }
-  const l = data[0];
-  const total = (l.strongBuy||0)+(l.buy||0)+(l.hold||0)+(l.sell||0)+(l.strongSell||0);
-  const buyPct = total ? Math.round(((l.strongBuy+l.buy)/total)*100) : 0;
-  const holdPct = total ? Math.round((l.hold/total)*100) : 0;
-  const sellPct = total ? Math.round(((l.sell+l.strongSell)/total)*100) : 0;
+  const l=data[0];
+  const total=(l.strongBuy||0)+(l.buy||0)+(l.hold||0)+(l.sell||0)+(l.strongSell||0);
+  const buyPct=total?Math.round(((l.strongBuy+l.buy)/total)*100):0;
+  const holdPct=total?Math.round((l.hold/total)*100):0;
   card.innerHTML = `
-    <div style="display:flex;gap:6px;height:60px;margin-bottom:12px;border-radius:8px;overflow:hidden;">
-      <div style="width:${buyPct}%;background:var(--green-dim);color:var(--green);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font-size:10px;font-weight:700;border-radius:4px;min-width:30px;">Buy<br>${l.strongBuy+l.buy}</div>
-      <div style="width:${holdPct}%;background:var(--amber-dim);color:var(--amber);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font-size:10px;font-weight:700;border-radius:4px;min-width:30px;">Hold<br>${l.hold}</div>
-      <div style="width:${Math.max(sellPct,5)}%;background:var(--red-dim);color:var(--red);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font-size:10px;font-weight:700;border-radius:4px;min-width:30px;">Sell<br>${l.sell+l.strongSell}</div>
+    <div style="display:flex;gap:6px;height:60px;margin-bottom:12px;overflow:hidden;border-radius:8px;">
+      <div style="width:${buyPct}%;background:var(--green-dim);color:var(--green);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font-size:10px;font-weight:700;border-radius:4px;min-width:28px;">Buy<br>${l.strongBuy+l.buy}</div>
+      <div style="width:${holdPct}%;background:var(--amber-dim);color:var(--amber);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font-size:10px;font-weight:700;border-radius:4px;min-width:28px;">Hold<br>${l.hold}</div>
+      <div style="flex:1;background:var(--red-dim);color:var(--red);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:6px;font-size:10px;font-weight:700;border-radius:4px;">Sell<br>${l.sell+l.strongSell}</div>
     </div>
     <div style="font-size:12px;color:var(--text2);">${total} analysts · ${l.period}</div>
     <div style="margin-top:10px;font-size:12px;color:var(--text3);">Consensus: <strong style="color:${buyPct>50?'var(--green)':holdPct>50?'var(--amber)':'var(--red)'};">${buyPct>50?'BUY':holdPct>50?'HOLD':'SELL'}</strong></div>
@@ -241,48 +261,48 @@ async function loadRecommendations() {
 }
 
 async function loadCandles(days, btn) {
-  if (btn) { document.querySelectorAll('.tf-tab').forEach(t=>t.classList.remove('active')); btn.classList.add('active'); }
-  const to = Math.floor(Date.now()/1000);
-  const from = to - days*86400;
-  const res = days <= 7 ? '60' : 'D';
-  const d = await api(`/stock/candle?symbol=${SYMBOL}&resolution=${res}&from=${from}&to=${to}`);
-  if (!d || d.s !== 'ok' || !d.c) return;
-  const labels = d.t.map(ts => new Date(ts*1000).toLocaleDateString('en-US',{month:'short',day:'numeric'}));
-  const isUp = d.c[d.c.length-1] >= d.c[0];
-  const color = isUp ? '#22d48a' : '#ff5f6e';
-  if (chart) chart.destroy();
-  const ctx = document.getElementById('priceChart').getContext('2d');
-  const grad = ctx.createLinearGradient(0,0,0,240);
-  grad.addColorStop(0, isUp?'rgba(34,212,138,0.2)':'rgba(255,95,110,0.2)');
+  if(btn){document.querySelectorAll('.tf-tab').forEach(t=>t.classList.remove('active'));btn.classList.add('active');}
+  const to=Math.floor(Date.now()/1000), from=to-days*86400;
+  const res=days<=7?'60':'D';
+  const d=await api(`/stock/candle?symbol=${SYMBOL}&resolution=${res}&from=${from}&to=${to}`);
+  if(!d||d.s!=='ok'||!d.c)return;
+  const labels=d.t.map(ts=>new Date(ts*1000).toLocaleDateString('en-US',{month:'short',day:'numeric'}));
+  const isUp=d.c[d.c.length-1]>=d.c[0];
+  const color=isUp?'#22d48a':'#ff5f6e';
+  if(chart)chart.destroy();
+  const ctx=document.getElementById('priceChart').getContext('2d');
+  const grad=ctx.createLinearGradient(0,0,0,240);
+  grad.addColorStop(0,isUp?'rgba(34,212,138,0.2)':'rgba(255,95,110,0.2)');
   grad.addColorStop(1,'rgba(0,0,0,0)');
-  chart = new Chart(ctx, {
+  chart=new Chart(ctx,{
     type:'line',
-    data:{ labels, datasets:[{ data:d.c, borderColor:color, borderWidth:2, backgroundColor:grad, fill:true, tension:0.3, pointRadius:0, pointHoverRadius:4, pointHoverBackgroundColor:color }] },
-    options:{ responsive:true, maintainAspectRatio:false,
-      plugins:{ legend:{display:false}, tooltip:{ backgroundColor:'#1c2030', borderColor:'rgba(255,255,255,0.1)', borderWidth:1, titleColor:'#8891aa', bodyColor:'#eef0f8', padding:10, callbacks:{label:c=>'$'+c.parsed.y.toFixed(2)} } },
-      scales:{ x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555f7a',font:{size:11},maxTicksLimit:8}}, y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555f7a',font:{size:11},callback:v=>'$'+v.toFixed(0)},position:'right'} }
+    data:{labels,datasets:[{data:d.c,borderColor:color,borderWidth:2,backgroundColor:grad,fill:true,tension:0.3,pointRadius:0,pointHoverRadius:4,pointHoverBackgroundColor:color}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{backgroundColor:'#1e1e1e',borderColor:'rgba(255,255,255,0.1)',borderWidth:1,titleColor:'#9a9a9a',bodyColor:'#f0f0f0',padding:10,callbacks:{label:c=>'$'+c.parsed.y.toFixed(2)}}},
+      scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555555',font:{size:11},maxTicksLimit:8}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#555555',font:{size:11},callback:v=>'$'+v.toFixed(0)},position:'right'}}
     }
   });
 }
 
 function generateSignal(q) {
-  const dp = q.dp||0;
-  let signal, cls, conf, reason, target;
-  if (dp > 1.5) { signal='BUY'; cls='buy'; conf=Math.min(95,72+dp*2); reason=`Strong upward momentum with ${dp.toFixed(2)}% gain today. Price near daily highs suggests continued buying pressure.`; target=(q.c*1.12).toFixed(2); }
-  else if (dp < -1.5) { signal='REDUCE'; cls='sell'; conf=Math.min(90,68+Math.abs(dp)*2); reason=`Selling pressure with ${dp.toFixed(2)}% decline today. Consider reducing exposure and waiting for stabilisation.`; target=(q.c*0.95).toFixed(2); }
-  else { signal='HOLD'; cls='hold'; conf=72; reason='Consolidating near current levels. Wait for a clearer directional signal before adding or reducing positions.'; target=(q.c*1.08).toFixed(2); }
-  document.getElementById('aiSignal').textContent = signal;
-  document.getElementById('aiSignal').className = `signal-big ${cls}`;
-  document.getElementById('aiTarget').textContent = '$'+target;
-  document.getElementById('confBar').style.width = conf+'%';
-  document.getElementById('confLabel').textContent = Math.round(conf)+'% confidence';
-  document.getElementById('aiReason').textContent = reason;
+  const dp=q.dp||0;
+  let signal,cls,conf,reason,target;
+  if(dp>1.5){signal='BUY';cls='buy';conf=Math.min(95,72+dp*2);reason=`Strong upward momentum with a ${dp.toFixed(2)}% gain today. Price is trading near session highs, suggesting continued buying interest.`;target=(q.c*1.12).toFixed(2);}
+  else if(dp<-1.5){signal='REDUCE';cls='sell';conf=Math.min(90,68+Math.abs(dp)*2);reason=`Selling pressure evident with a ${dp.toFixed(2)}% decline today. Consider reducing exposure and waiting for price stabilisation before re-entering.`;target=(q.c*0.95).toFixed(2);}
+  else{signal='HOLD';cls='hold';conf=72;reason='Price is consolidating near current levels. No clear directional catalyst today — hold current positions and watch for a breakout above resistance.';target=(q.c*1.08).toFixed(2);}
+  document.getElementById('aiSignal').textContent=signal;
+  document.getElementById('aiSignal').className=`signal-big ${cls}`;
+  document.getElementById('aiTarget').textContent='$'+target;
+  document.getElementById('confBar').style.width=conf+'%';
+  document.getElementById('confLabel').textContent=Math.round(conf)+'% confidence';
+  document.getElementById('aiReason').textContent=reason;
+  document.getElementById('aiAnalysis').innerHTML=`<strong style="color:var(--text)">${SYMBOL}</strong> is ${dp>=0?'up':'down'} <strong style="color:${dp>=0?'var(--green)':'var(--red)'};">${dp.toFixed(2)}%</strong> today. AI signal: <strong style="color:${cls==='buy'?'var(--green)':cls==='sell'?'var(--red)':'var(--amber)'}">${signal}</strong> with a 12-month price target of <strong style="color:var(--text);">$${target}</strong>. ${reason}`;
 }
 
-function addToPortfolio() { alert(`✓ ${SYMBOL} added to your portfolio!\n\n(Full portfolio tracking coming in the next update)`); }
-function addToWatchlist() { alert(`☆ ${SYMBOL} added to your watchlist!\n\n(Watchlist feature coming soon)`); }
+function addToPortfolio(){alert(`✓ ${SYMBOL} added to your portfolio!\n\n(Full portfolio tracking coming in the next update)`);}
+function addToWatchlist(){alert(`☆ ${SYMBOL} added to your watchlist!\n\n(Watchlist feature coming soon)`);}
 
-loadQuote(); loadProfile(); loadNews(); loadRecommendations(); loadCandles(30, null);
+loadQuote(); loadProfile(); loadNews(); loadRecommendations(); loadCandles(30,null);
 </script>
 </body>
 </html>

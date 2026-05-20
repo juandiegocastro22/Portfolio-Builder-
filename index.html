@@ -8,14 +8,27 @@
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --bg: #0d0f14; --surface: #151820; --surface2: #1c2030; --surface3: #232840;
-  --border: rgba(255,255,255,0.07); --border2: rgba(255,255,255,0.13);
-  --text: #eef0f8; --text2: #8891aa; --text3: #555f7a;
-  --green: #22d48a; --green-dim: rgba(34,212,138,0.12);
-  --red: #ff5f6e; --red-dim: rgba(255,95,110,0.12);
-  --amber: #f5a623; --amber-dim: rgba(245,166,35,0.12);
-  --accent: #6c7fff; --accent-dim: rgba(108,127,255,0.15);
-  --font: 'DM Sans', sans-serif; --serif: 'DM Serif Display', serif;
+  --bg: #0a0a0a;
+  --surface: #141414;
+  --surface2: #1e1e1e;
+  --surface3: #282828;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.13);
+  --text: #f0f0f0;
+  --text2: #9a9a9a;
+  --text3: #555555;
+  --orange: #f97316;
+  --orange-dim: rgba(249,115,22,0.15);
+  --orange-glow: rgba(249,115,22,0.08);
+  --grey: #6b7280;
+  --grey-light: #9ca3af;
+  --grey-dim: rgba(107,114,128,0.15);
+  --green: #22d48a;
+  --green-dim: rgba(34,212,138,0.12);
+  --red: #ff5f6e;
+  --red-dim: rgba(255,95,110,0.12);
+  --font: 'DM Sans', sans-serif;
+  --serif: 'DM Serif Display', serif;
 }
 html { scroll-behavior: smooth; }
 body { background: var(--bg); color: var(--text); font-family: var(--font); font-size: 15px; line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
@@ -23,40 +36,54 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 10px; }
 
 /* TOPBAR */
-.topbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  display: flex; align-items: center; padding: 0 40px; height: 60px;
-  background: rgba(13,15,20,0.85); backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
-}
+.topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; padding: 0 40px; height: 60px; background: rgba(10,10,10,0.88); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
 .logo { font-family: var(--serif); font-size: 22px; color: var(--text); display: flex; align-items: center; gap: 7px; text-decoration: none; margin-right: 40px; }
-.logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); display: inline-block; }
+.logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); display: inline-block; }
 .nav { display: flex; gap: 4px; align-items: center; }
 .nav a { font-size: 14px; color: var(--text2); text-decoration: none; padding: 6px 12px; border-radius: 8px; transition: all 0.15s; }
 .nav a:hover { color: var(--text); background: var(--surface2); }
 .topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
 .btn-ghost { font-family: var(--font); font-size: 13px; font-weight: 500; padding: 7px 16px; border-radius: 8px; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.15s; text-decoration: none; display: inline-flex; align-items: center; }
-.btn-ghost:hover { color: var(--text); border-color: var(--accent); }
-.btn-primary { font-family: var(--font); font-size: 13px; font-weight: 600; padding: 7px 18px; border-radius: 8px; border: none; background: var(--accent); color: #fff; cursor: pointer; transition: all 0.15s; text-decoration: none; display: inline-flex; align-items: center; }
-.btn-primary:hover { background: #7f8fff; }
+.btn-ghost:hover { color: var(--text); border-color: var(--orange); }
+.btn-primary { font-family: var(--font); font-size: 13px; font-weight: 600; padding: 7px 18px; border-radius: 8px; border: none; background: var(--orange); color: #fff; cursor: pointer; transition: all 0.15s; text-decoration: none; display: inline-flex; align-items: center; }
+.btn-primary:hover { background: #ea6a0a; }
 
 /* HERO */
 .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 100px 24px 60px; position: relative; overflow: hidden; }
-.hero-bg { position: absolute; inset: 0; z-index: 0; background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(108,127,255,0.18) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(34,212,138,0.07) 0%, transparent 60%); }
-.hero-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--accent); background: var(--accent-dim); border: 1px solid rgba(108,127,255,0.25); padding: 5px 14px; border-radius: 20px; margin-bottom: 28px; position: relative; z-index: 1; animation: fadeUp 0.6s ease both; }
+.hero-bg { position: absolute; inset: 0; z-index: 0; background: radial-gradient(ellipse 80% 55% at 50% 0%, rgba(249,115,22,0.12) 0%, transparent 70%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(107,114,128,0.06) 0%, transparent 60%); }
+.hero-badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--orange); background: var(--orange-dim); border: 1px solid rgba(249,115,22,0.25); padding: 5px 14px; border-radius: 20px; margin-bottom: 28px; position: relative; z-index: 1; animation: fadeUp 0.6s ease both; }
 .hero h1 { font-family: var(--serif); font-size: clamp(40px, 7vw, 80px); line-height: 1.05; letter-spacing: -1.5px; color: var(--text); max-width: 820px; margin-bottom: 24px; position: relative; z-index: 1; animation: fadeUp 0.6s 0.1s ease both; }
-.hero h1 em { font-style: italic; color: var(--accent); }
+.hero h1 em { font-style: italic; color: var(--orange); }
 .hero p { font-size: clamp(15px, 2vw, 18px); color: var(--text2); max-width: 560px; line-height: 1.7; margin-bottom: 36px; position: relative; z-index: 1; animation: fadeUp 0.6s 0.2s ease both; }
 .hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; animation: fadeUp 0.6s 0.3s ease both; }
-.btn-hero { font-family: var(--font); font-size: 15px; font-weight: 600; padding: 13px 28px; border-radius: 10px; border: none; background: var(--accent); color: #fff; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
-.btn-hero:hover { background: #7f8fff; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(108,127,255,0.35); }
+.btn-hero { font-family: var(--font); font-size: 15px; font-weight: 600; padding: 13px 28px; border-radius: 10px; border: none; background: var(--orange); color: #fff; cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+.btn-hero:hover { background: #ea6a0a; transform: translateY(-2px); box-shadow: 0 8px 32px rgba(249,115,22,0.35); }
 .btn-hero-outline { font-family: var(--font); font-size: 15px; font-weight: 500; padding: 13px 28px; border-radius: 10px; border: 1px solid var(--border2); background: transparent; color: var(--text2); cursor: pointer; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; }
-.btn-hero-outline:hover { color: var(--text); border-color: var(--text3); }
+.btn-hero-outline:hover { color: var(--text); border-color: var(--grey); }
 .hero-meta { margin-top: 20px; font-size: 13px; color: var(--text3); position: relative; z-index: 1; animation: fadeUp 0.6s 0.4s ease both; }
 
+/* LIVE SEARCH */
+.hero-search { position: relative; z-index: 1; width: 100%; max-width: 540px; margin-top: 32px; animation: fadeUp 0.6s 0.35s ease both; }
+.hero-search-inner { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border2); border-radius: 12px; padding: 6px 6px 6px 16px; gap: 8px; transition: border-color 0.2s; }
+.hero-search-inner:focus-within { border-color: var(--orange); box-shadow: 0 0 0 3px rgba(249,115,22,0.1); }
+.hero-search-input { flex: 1; background: transparent; border: none; color: var(--text); font-family: var(--font); font-size: 15px; outline: none; }
+.hero-search-input::placeholder { color: var(--text3); }
+.hero-search-btn { background: var(--orange); color: #fff; border: none; border-radius: 8px; padding: 9px 18px; font-family: var(--font); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.hero-search-btn:hover { background: #ea6a0a; }
+
+/* LIVE STRIP */
+.live-strip { position: relative; z-index: 1; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 28px; animation: fadeUp 0.6s 0.5s ease both; }
+.live-quote { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 16px; display: flex; flex-direction: column; align-items: center; min-width: 90px; cursor: pointer; transition: all 0.15s; text-decoration: none; }
+.live-quote:hover { border-color: var(--orange); background: var(--surface2); transform: translateY(-2px); }
+.live-quote-sym { font-size: 12px; font-weight: 700; color: var(--text); }
+.live-quote-price { font-size: 14px; font-weight: 600; color: var(--text); margin-top: 2px; }
+.live-quote-chg { font-size: 11px; font-weight: 600; margin-top: 1px; }
+.live-quote-chg.up { color: var(--green); }
+.live-quote-chg.dn { color: var(--red); }
+
 /* TICKER */
-.ticker-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 16px 0; overflow: hidden; margin-top: 60px; }
-.ticker-track { display: flex; gap: 0; animation: ticker 35s linear infinite; white-space: nowrap; width: max-content; }
+.ticker-section { background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 16px 0; overflow: hidden; }
+.ticker-track { display: flex; animation: ticker 35s linear infinite; white-space: nowrap; width: max-content; }
 .ticker-track:hover { animation-play-state: paused; }
 .ticker-item { display: inline-flex; align-items: center; gap: 10px; padding: 0 28px; border-right: 1px solid var(--border); }
 .ticker-sym { font-size: 13px; font-weight: 600; color: var(--text); }
@@ -65,78 +92,58 @@ body { background: var(--bg); color: var(--text); font-family: var(--font); font
 .ticker-chg.up { color: var(--green); }
 .ticker-chg.dn { color: var(--red); }
 
-/* SEARCH BAR HERO */
-.hero-search { position: relative; z-index: 1; width: 100%; max-width: 540px; margin-top: 32px; animation: fadeUp 0.6s 0.35s ease both; }
-.hero-search-inner { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border2); border-radius: 12px; padding: 6px 6px 6px 16px; gap: 8px; transition: border-color 0.2s; }
-.hero-search-inner:focus-within { border-color: var(--accent); }
-.hero-search-input { flex: 1; background: transparent; border: none; color: var(--text); font-family: var(--font); font-size: 15px; outline: none; }
-.hero-search-input::placeholder { color: var(--text3); }
-.hero-search-btn { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 9px 18px; font-family: var(--font); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
-.hero-search-btn:hover { background: #7f8fff; }
-
-/* LIVE QUOTES STRIP */
-.live-strip { position: relative; z-index: 1; display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; margin-top: 28px; animation: fadeUp 0.6s 0.5s ease both; }
-.live-quote { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 10px 16px; display: flex; flex-direction: column; align-items: center; min-width: 90px; cursor: pointer; transition: all 0.15s; text-decoration: none; }
-.live-quote:hover { border-color: var(--border2); background: var(--surface2); transform: translateY(-2px); }
-.live-quote-sym { font-size: 12px; font-weight: 700; color: var(--text); }
-.live-quote-price { font-size: 14px; font-weight: 600; color: var(--text); margin-top: 2px; }
-.live-quote-chg { font-size: 11px; font-weight: 600; margin-top: 1px; }
-.live-quote-chg.up { color: var(--green); }
-.live-quote-chg.dn { color: var(--red); }
-.loading-pulse { animation: pulse 1.5s ease-in-out infinite; }
-@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
-
 /* SECTIONS */
 section { padding: 100px 24px; }
 .container { max-width: 1100px; margin: 0 auto; }
-.section-eyebrow { font-size: 12px; font-weight: 600; color: var(--accent); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
+.section-eyebrow { font-size: 12px; font-weight: 600; color: var(--orange); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px; }
 .section-title { font-family: var(--serif); font-size: clamp(28px, 4vw, 46px); line-height: 1.1; letter-spacing: -0.5px; color: var(--text); margin-bottom: 16px; }
 .section-sub { font-size: 16px; color: var(--text2); max-width: 520px; line-height: 1.7; }
 
 /* FEATURES */
 .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 56px; }
 .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; transition: all 0.2s; }
-.feature-card:hover { border-color: var(--border2); transform: translateY(-3px); background: var(--surface2); }
-.feature-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 16px; }
-.feature-icon.blue { background: var(--accent-dim); }
-.feature-icon.green { background: var(--green-dim); }
-.feature-icon.amber { background: var(--amber-dim); }
-.feature-icon.red { background: var(--red-dim); }
-.feature-icon.teal { background: rgba(56,189,248,0.12); }
-.feature-icon.purple { background: rgba(167,139,250,0.12); }
+.feature-card:hover { border-color: rgba(249,115,22,0.3); transform: translateY(-3px); background: var(--surface2); }
+.feature-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 16px; background: var(--orange-dim); border: 1px solid rgba(249,115,22,0.2); }
 .feature-title { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
 .feature-desc { font-size: 13px; color: var(--text2); line-height: 1.65; }
 
 /* HOW IT WORKS */
 .how-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; margin-top: 56px; position: relative; }
-.how-grid::before { content: ''; position: absolute; top: 28px; left: 12.5%; right: 12.5%; height: 1px; background: linear-gradient(90deg, transparent, var(--border2), var(--border2), transparent); }
+.how-grid::before { content: ''; position: absolute; top: 28px; left: 12.5%; right: 12.5%; height: 1px; background: linear-gradient(90deg, transparent, var(--orange), var(--orange), transparent); opacity: 0.3; }
 .how-step { text-align: center; padding: 0 16px; }
-.how-number { width: 56px; height: 56px; border-radius: 50%; background: var(--surface); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 22px; color: var(--accent); margin: 0 auto 20px; position: relative; z-index: 1; }
+.how-number { width: 56px; height: 56px; border-radius: 50%; background: var(--surface); border: 2px solid var(--orange); display: flex; align-items: center; justify-content: center; font-family: var(--serif); font-size: 22px; color: var(--orange); margin: 0 auto 20px; position: relative; z-index: 1; }
 .how-title { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
 .how-desc { font-size: 13px; color: var(--text2); line-height: 1.6; }
 
 /* PLANS */
 .plans-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 56px; align-items: start; }
 .plan-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 28px 24px; }
-.plan-card.featured { background: var(--surface2); border-color: var(--accent); box-shadow: 0 0 40px rgba(108,127,255,0.15); }
-.plan-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(108,127,255,0.25); display: inline-block; margin-bottom: 16px; }
+.plan-card.featured { background: var(--surface2); border-color: var(--orange); box-shadow: 0 0 40px rgba(249,115,22,0.12); }
+.plan-badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; background: var(--orange-dim); color: var(--orange); border: 1px solid rgba(249,115,22,0.25); display: inline-block; margin-bottom: 16px; }
 .plan-name { font-size: 13px; font-weight: 600; color: var(--text2); margin-bottom: 8px; }
 .plan-price { font-family: var(--serif); font-size: 40px; color: var(--text); letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
 .plan-price span { font-family: var(--font); font-size: 15px; font-weight: 400; color: var(--text3); }
 .plan-desc { font-size: 13px; color: var(--text2); margin-bottom: 24px; line-height: 1.6; }
 .plan-features { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
 .plan-features li { font-size: 13px; color: var(--text2); display: flex; align-items: center; gap: 10px; }
-.plan-features li::before { content: '✓'; color: var(--green); font-weight: 700; font-size: 12px; flex-shrink: 0; }
+.plan-features li::before { content: '✓'; color: var(--orange); font-weight: 700; font-size: 12px; flex-shrink: 0; }
 .plan-features li.off { color: var(--text3); }
 .plan-features li.off::before { content: '✕'; color: var(--text3); }
 .plan-btn { width: 100%; padding: 11px; border-radius: 10px; font-family: var(--font); font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.2s; border: none; }
 .plan-btn.outline { background: transparent; border: 1px solid var(--border2); color: var(--text2); }
-.plan-btn.outline:hover { color: var(--text); border-color: var(--text3); }
-.plan-btn.filled { background: var(--accent); color: #fff; }
-.plan-btn.filled:hover { background: #7f8fff; }
+.plan-btn.outline:hover { color: var(--text); border-color: var(--grey); }
+.plan-btn.filled { background: var(--orange); color: #fff; }
+.plan-btn.filled:hover { background: #ea6a0a; }
+
+/* STATS */
+.big-stats { display: grid; grid-template-columns: repeat(3,1fr); border: 1px solid var(--border); border-radius: 16px; margin-top: 56px; background: var(--surface); overflow: hidden; }
+.big-stat { padding: 40px 20px; border-right: 1px solid var(--border); text-align: center; }
+.big-stat:last-child { border-right: none; }
+.big-stat-num { font-family: var(--serif); font-size: 56px; color: var(--orange); letter-spacing: -2px; line-height: 1; margin-bottom: 8px; }
+.big-stat-label { font-size: 14px; color: var(--text2); }
 
 /* CTA */
-.cta-section { text-align: center; padding: 120px 24px; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(108,127,255,0.12) 0%, transparent 70%); }
+.cta-section { text-align: center; padding: 120px 24px; background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(249,115,22,0.08) 0%, transparent 70%); }
 .cta-title { font-family: var(--serif); font-size: clamp(32px, 5vw, 60px); margin-bottom: 20px; letter-spacing: -0.5px; }
 .cta-sub { font-size: 17px; color: var(--text2); margin-bottom: 36px; }
 
@@ -146,27 +153,19 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 .footer-brand p { font-size: 13px; color: var(--text3); margin-top: 10px; max-width: 260px; line-height: 1.7; }
 .footer-col h4 { font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 14px; }
 .footer-col a { display: block; font-size: 13px; color: var(--text3); text-decoration: none; margin-bottom: 8px; transition: color 0.15s; }
-.footer-col a:hover { color: var(--text2); }
+.footer-col a:hover { color: var(--orange); }
 .footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; display: flex; align-items: center; justify-content: space-between; font-size: 12px; color: var(--text3); max-width: 1100px; margin: 0 auto; }
+
+/* DIVIDER */
+.section-divider { height: 1px; background: linear-gradient(90deg, transparent, var(--border2), transparent); max-width: 1100px; margin: 0 auto; }
 
 @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes pulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+.loading-pulse { animation: pulse 1.5s ease-in-out infinite; }
 
-@media (max-width: 900px) {
-  .topbar { padding: 0 20px; }
-  .nav { display: none; }
-  .features-grid { grid-template-columns: 1fr 1fr; }
-  .how-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
-  .how-grid::before { display: none; }
-  .plans-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; }
-  .footer-grid { grid-template-columns: 1fr 1fr; }
-}
-@media (max-width: 600px) {
-  section { padding: 60px 16px; }
-  .features-grid { grid-template-columns: 1fr; }
-  .how-grid { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
-}
+@media (max-width: 900px) { .topbar { padding: 0 20px; } .nav { display: none; } .features-grid { grid-template-columns: 1fr 1fr; } .how-grid { grid-template-columns: 1fr 1fr; gap: 40px; } .how-grid::before { display: none; } .plans-grid { grid-template-columns: 1fr; max-width: 400px; margin-left: auto; margin-right: auto; } .footer-grid { grid-template-columns: 1fr 1fr; } .big-stats { grid-template-columns: 1fr; } .big-stat { border-right: none; border-bottom: 1px solid var(--border); } .big-stat:last-child { border-bottom: none; } }
+@media (max-width: 600px) { section { padding: 60px 16px; } .features-grid { grid-template-columns: 1fr; } .how-grid { grid-template-columns: 1fr; } .footer-grid { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
@@ -190,7 +189,6 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
   <h1>Invest smarter,<br>whether you're <em>15</em> or 50</h1>
   <p>Search stocks, ETFs, crypto and bonds. Build your portfolio. Get live prices, real-time news, and AI-powered buy/sell signals — all in one place.</p>
 
-  <!-- LIVE SEARCH -->
   <div class="hero-search">
     <div class="hero-search-inner">
       <input class="hero-search-input" id="heroSearch" type="text" placeholder="Search any stock, ETF, crypto... e.g. AAPL, BTC, VOO">
@@ -198,22 +196,19 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
     </div>
   </div>
 
-  <!-- LIVE QUOTES -->
   <div class="live-strip" id="liveStrip">
-    <div class="live-quote loading-pulse"><div class="live-quote-sym">AAPL</div><div class="live-quote-price">—</div><div class="live-quote-chg">Loading...</div></div>
-    <div class="live-quote loading-pulse"><div class="live-quote-sym">MSFT</div><div class="live-quote-price">—</div><div class="live-quote-chg">Loading...</div></div>
-    <div class="live-quote loading-pulse"><div class="live-quote-sym">NVDA</div><div class="live-quote-price">—</div><div class="live-quote-chg">Loading...</div></div>
-    <div class="live-quote loading-pulse"><div class="live-quote-sym">TSLA</div><div class="live-quote-price">—</div><div class="live-quote-chg">Loading...</div></div>
-    <div class="live-quote loading-pulse"><div class="live-quote-sym">AMZN</div><div class="live-quote-price">—</div><div class="live-quote-chg">Loading...</div></div>
-    <div class="live-quote loading-pulse"><div class="live-quote-sym">GOOG</div><div class="live-quote-price">—</div><div class="live-quote-chg">Loading...</div></div>
+    <div class="live-quote loading-pulse"><div class="live-quote-sym">AAPL</div><div class="live-quote-price">—</div><div class="live-quote-chg">...</div></div>
+    <div class="live-quote loading-pulse"><div class="live-quote-sym">MSFT</div><div class="live-quote-price">—</div><div class="live-quote-chg">...</div></div>
+    <div class="live-quote loading-pulse"><div class="live-quote-sym">NVDA</div><div class="live-quote-price">—</div><div class="live-quote-chg">...</div></div>
+    <div class="live-quote loading-pulse"><div class="live-quote-sym">TSLA</div><div class="live-quote-price">—</div><div class="live-quote-chg">...</div></div>
+    <div class="live-quote loading-pulse"><div class="live-quote-sym">AMZN</div><div class="live-quote-price">—</div><div class="live-quote-chg">...</div></div>
+    <div class="live-quote loading-pulse"><div class="live-quote-sym">GOOG</div><div class="live-quote-price">—</div><div class="live-quote-chg">...</div></div>
   </div>
-
   <div class="hero-meta" style="margin-top:28px;">No credit card required · Free plan forever · Trusted by 120,000+ investors</div>
 </section>
 
-<!-- TICKER -->
 <div class="ticker-section">
-  <div class="ticker-track" id="tickerTrack">
+  <div class="ticker-track">
     <div class="ticker-item"><span class="ticker-sym">AAPL</span><span class="ticker-price" id="t-AAPL">—</span><span class="ticker-chg" id="tc-AAPL">—</span></div>
     <div class="ticker-item"><span class="ticker-sym">MSFT</span><span class="ticker-price" id="t-MSFT">—</span><span class="ticker-chg" id="tc-MSFT">—</span></div>
     <div class="ticker-item"><span class="ticker-sym">NVDA</span><span class="ticker-price" id="t-NVDA">—</span><span class="ticker-chg" id="tc-NVDA">—</span></div>
@@ -224,7 +219,6 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
     <div class="ticker-item"><span class="ticker-sym">SPY</span><span class="ticker-price" id="t-SPY">—</span><span class="ticker-chg" id="tc-SPY">—</span></div>
     <div class="ticker-item"><span class="ticker-sym">QQQ</span><span class="ticker-price" id="t-QQQ">—</span><span class="ticker-chg" id="tc-QQQ">—</span></div>
     <div class="ticker-item"><span class="ticker-sym">VTI</span><span class="ticker-price" id="t-VTI">—</span><span class="ticker-chg" id="tc-VTI">—</span></div>
-    <!-- duplicate -->
     <div class="ticker-item"><span class="ticker-sym">AAPL</span><span class="ticker-price">—</span><span class="ticker-chg">—</span></div>
     <div class="ticker-item"><span class="ticker-sym">MSFT</span><span class="ticker-price">—</span><span class="ticker-chg">—</span></div>
     <div class="ticker-item"><span class="ticker-sym">NVDA</span><span class="ticker-price">—</span><span class="ticker-chg">—</span></div>
@@ -238,41 +232,50 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
   </div>
 </div>
 
-<!-- FEATURES -->
 <section id="features">
   <div class="container">
     <div class="section-eyebrow">Everything you need</div>
     <div class="section-title">Built for every type<br>of investor</div>
-    <div class="section-sub">Whether you're putting in your first $50 or managing a multi-million dollar portfolio, InvestIQ adapts to your level.</div>
+    <div class="section-sub">Whether you're putting in your first $50 or managing millions, InvestIQ adapts to your level.</div>
     <div class="features-grid">
-      <div class="feature-card"><div class="feature-icon blue">🔍</div><div class="feature-title">Universal Search</div><div class="feature-desc">Search across stocks, ETFs, bonds, crypto, and commodities in one place. Over 50,000 assets from every major global market.</div></div>
-      <div class="feature-card"><div class="feature-icon green">📊</div><div class="feature-title">Live Charts & Prices</div><div class="feature-desc">Real-time price data, interactive charts with multiple timeframes, technical indicators, and volume analysis.</div></div>
-      <div class="feature-card"><div class="feature-icon amber">🤖</div><div class="feature-title">AI Buy/Sell Signals</div><div class="feature-desc">Our AI analyses price patterns, news sentiment, analyst ratings, and macro trends to give you clear buy, hold, or sell recommendations.</div></div>
-      <div class="feature-card"><div class="feature-icon red">📰</div><div class="feature-title">Smart News Feed</div><div class="feature-desc">News filtered by the assets you own or watch. Every article tagged with sentiment so you see what matters instantly.</div></div>
-      <div class="feature-card"><div class="feature-icon teal">💼</div><div class="feature-title">Portfolio Builder</div><div class="feature-desc">Add positions, track performance, see your allocation breakdown, and compare against benchmarks like the S&P 500.</div></div>
-      <div class="feature-card"><div class="feature-icon purple">🔮</div><div class="feature-title">Future Estimations</div><div class="feature-desc">Analyst price targets, earnings forecasts, DCF valuations, and AI-generated outlook summaries — presented clearly for any level.</div></div>
+      <div class="feature-card"><div class="feature-icon">🔍</div><div class="feature-title">Universal Search</div><div class="feature-desc">Search across stocks, ETFs, bonds, crypto, and commodities in one place. Over 50,000 assets from every major global market.</div></div>
+      <div class="feature-card"><div class="feature-icon">📊</div><div class="feature-title">Live Charts & Prices</div><div class="feature-desc">Real-time price data, interactive charts with multiple timeframes, technical indicators, and volume analysis.</div></div>
+      <div class="feature-card"><div class="feature-icon">🤖</div><div class="feature-title">AI Buy/Sell Signals</div><div class="feature-desc">Our AI analyses price patterns, news sentiment, analyst ratings, and macro trends to give you clear buy, hold, or sell recommendations.</div></div>
+      <div class="feature-card"><div class="feature-icon">📰</div><div class="feature-title">Smart News Feed</div><div class="feature-desc">News filtered by the assets you own or watch. Every article tagged with sentiment so you see what matters instantly.</div></div>
+      <div class="feature-card"><div class="feature-icon">💼</div><div class="feature-title">Portfolio Builder</div><div class="feature-desc">Add positions, track performance, see your allocation breakdown, and compare against benchmarks like the S&P 500.</div></div>
+      <div class="feature-card"><div class="feature-icon">🔮</div><div class="feature-title">Future Estimations</div><div class="feature-desc">Analyst price targets, earnings forecasts, and AI-generated outlook summaries — presented clearly for any level.</div></div>
     </div>
   </div>
 </section>
 
-<!-- HOW IT WORKS -->
-<section id="how" style="background: var(--surface); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+<section id="how" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="container">
     <div style="text-align:center;">
       <div class="section-eyebrow">Simple by design</div>
       <div class="section-title">Up and running in minutes</div>
     </div>
     <div class="how-grid">
-      <div class="how-step"><div class="how-number">1</div><div class="how-title">Create your account</div><div class="how-desc">Sign up free in 30 seconds — no credit card, no jargon. Just your email.</div></div>
-      <div class="how-step"><div class="how-number">2</div><div class="how-title">Search any asset</div><div class="how-desc">Type any stock, ETF, crypto or bond and get instant data, news, and analysis.</div></div>
-      <div class="how-step"><div class="how-number">3</div><div class="how-title">Build your portfolio</div><div class="how-desc">Add positions manually or import from your broker. Track everything in one view.</div></div>
-      <div class="how-step"><div class="how-number">4</div><div class="how-title">Get AI insights</div><div class="how-desc">Receive daily signals, portfolio risk scores, and personalized recommendations.</div></div>
+      <div class="how-step"><div class="how-number">1</div><div class="how-title">Create your account</div><div class="how-desc">Sign up free in 30 seconds — no credit card, no jargon.</div></div>
+      <div class="how-step"><div class="how-number">2</div><div class="how-title">Search any asset</div><div class="how-desc">Type any stock, ETF, crypto or bond and get instant data.</div></div>
+      <div class="how-step"><div class="how-number">3</div><div class="how-title">Build your portfolio</div><div class="how-desc">Add positions manually or import from your broker.</div></div>
+      <div class="how-step"><div class="how-number">4</div><div class="how-title">Get AI insights</div><div class="how-desc">Receive daily signals, portfolio risk scores, and recommendations.</div></div>
     </div>
   </div>
 </section>
 
-<!-- PRICING -->
-<section id="pricing">
+<section style="text-align:center;">
+  <div class="container">
+    <div class="section-eyebrow">By the numbers</div>
+    <div class="section-title">Trusted by investors<br>of every level</div>
+    <div class="big-stats">
+      <div class="big-stat"><div class="big-stat-num">120k+</div><div class="big-stat-label">Active investors</div></div>
+      <div class="big-stat"><div class="big-stat-num">50k+</div><div class="big-stat-label">Assets tracked</div></div>
+      <div class="big-stat"><div class="big-stat-num">94%</div><div class="big-stat-label">Signal accuracy</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="pricing" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
   <div class="container">
     <div style="text-align:center;">
       <div class="section-eyebrow">Simple pricing</div>
@@ -286,7 +289,6 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
   </div>
 </section>
 
-<!-- CTA -->
 <section class="cta-section">
   <div class="container">
     <div class="cta-title">Start your investment<br>journey today</div>
@@ -295,12 +297,17 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
       <a class="btn-hero" href="investiq-auth.html">Create free account →</a>
       <a class="btn-hero-outline" href="investiq-search.html">Explore markets</a>
     </div>
+    <div style="margin-top:32px;display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;">
+      <div style="font-size:13px;color:var(--text3);display:flex;align-items:center;gap:6px;"><span style="color:var(--orange);">✓</span> Free forever plan</div>
+      <div style="font-size:13px;color:var(--text3);display:flex;align-items:center;gap:6px;"><span style="color:var(--orange);">✓</span> Cancel anytime</div>
+      <div style="font-size:13px;color:var(--text3);display:flex;align-items:center;gap:6px;"><span style="color:var(--orange);">✓</span> No hidden fees</div>
+    </div>
   </div>
 </section>
 
 <footer>
   <div class="footer-grid">
-    <div class="footer-brand"><div class="logo" style="font-size:18px;"><span class="logo-dot"></span>InvestIQ</div><p>Smart investing for everyone — from your first trade to your thousandth.</p></div>
+    <div class="footer-brand"><div class="logo" style="font-size:18px;"><span class="logo-dot"></span>InvestIQ</div><p>Smart investing for everyone — from your first trade to your thousandth. Clear data, powerful AI, zero jargon.</p></div>
     <div class="footer-col"><h4>Product</h4><a href="investiq-search.html">Markets</a><a href="investiq-stock.html">Stock Detail</a><a href="investiq-auth.html">Sign Up</a></div>
     <div class="footer-col"><h4>Company</h4><a href="#">About</a><a href="#">Blog</a><a href="#">Careers</a></div>
     <div class="footer-col"><h4>Legal</h4><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Disclaimer</a></div>
@@ -310,54 +317,36 @@ footer { background: var(--surface); border-top: 1px solid var(--border); paddin
 
 <script>
 const API_KEY = 'd74p7thr01qg1eo6cjggd74p7thr01qg1eo6cjh0';
-const SYMBOLS = ['AAPL','MSFT','NVDA','TSLA','AMZN','META','GOOG','SPY','QQQ','VTI'];
-const HERO_SYMS = ['AAPL','MSFT','NVDA','TSLA','AMZN','GOOG'];
+const SYMS = ['AAPL','MSFT','NVDA','TSLA','AMZN','META','GOOG','SPY','QQQ','VTI'];
+const HERO = ['AAPL','MSFT','NVDA','TSLA','AMZN','GOOG'];
+const fmt = n => n ? '$'+Number(n).toFixed(2) : '—';
 
-async function fetchQuote(symbol) {
-  try {
-    const r = await fetch(`https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${API_KEY}`);
-    return await r.json();
-  } catch(e) { return null; }
+async function fetchQ(sym) {
+  try { return await (await fetch(`https://finnhub.io/api/v1/quote?symbol=${sym}&token=${API_KEY}`)).json(); } catch(e) { return null; }
 }
 
-function fmt(n) { return n ? '$' + n.toFixed(2) : '—'; }
-function fmtChg(c, pc) {
-  if (!c) return { text: '—', up: true };
-  const sign = c >= 0 ? '+' : '';
-  return { text: `${sign}${c.toFixed(2)} (${sign}${pc.toFixed(2)}%)`, up: c >= 0 };
-}
-
-async function loadHeroQuotes() {
+async function loadHero() {
   const strip = document.getElementById('liveStrip');
   strip.innerHTML = '';
-  for (const sym of HERO_SYMS) {
-    const d = await fetchQuote(sym);
-    if (!d || !d.c) continue;
-    const chg = fmtChg(d.d, d.dp);
+  for (const sym of HERO) {
+    const d = await fetchQ(sym);
+    if (!d?.c) continue;
+    const up = d.d >= 0;
     const el = document.createElement('a');
     el.href = `investiq-stock.html?symbol=${sym}`;
     el.className = 'live-quote';
-    el.innerHTML = `
-      <div class="live-quote-sym">${sym}</div>
-      <div class="live-quote-price">${fmt(d.c)}</div>
-      <div class="live-quote-chg ${chg.up ? 'up' : 'dn'}">${chg.up ? '▲' : '▼'} ${Math.abs(d.dp).toFixed(2)}%</div>
-    `;
+    el.innerHTML = `<div class="live-quote-sym">${sym}</div><div class="live-quote-price">${fmt(d.c)}</div><div class="live-quote-chg ${up?'up':'dn'}">${up?'▲':'▼'} ${Math.abs(d.dp).toFixed(2)}%</div>`;
     strip.appendChild(el);
   }
 }
 
 async function loadTicker() {
-  for (const sym of SYMBOLS) {
-    const d = await fetchQuote(sym);
-    if (!d || !d.c) continue;
-    const el = document.getElementById(`t-${sym}`);
-    const cel = document.getElementById(`tc-${sym}`);
-    if (el) el.textContent = fmt(d.c);
-    if (cel) {
-      const up = d.d >= 0;
-      cel.textContent = `${up ? '▲' : '▼'} ${Math.abs(d.dp).toFixed(2)}%`;
-      cel.className = `ticker-chg ${up ? 'up' : 'dn'}`;
-    }
+  for (const sym of SYMS) {
+    const d = await fetchQ(sym);
+    if (!d?.c) continue;
+    const pe = document.getElementById(`t-${sym}`), ce = document.getElementById(`tc-${sym}`);
+    if (pe) pe.textContent = fmt(d.c);
+    if (ce) { const up = d.d >= 0; ce.textContent = `${up?'▲':'▼'} ${Math.abs(d.dp).toFixed(2)}%`; ce.className = `ticker-chg ${up?'up':'dn'}`; }
   }
 }
 
@@ -365,12 +354,9 @@ function goSearch() {
   const q = document.getElementById('heroSearch').value.trim();
   if (q) window.location.href = `investiq-search.html?q=${encodeURIComponent(q)}`;
 }
+document.getElementById('heroSearch').addEventListener('keydown', e => { if(e.key==='Enter') goSearch(); });
 
-document.getElementById('heroSearch').addEventListener('keydown', e => {
-  if (e.key === 'Enter') goSearch();
-});
-
-loadHeroQuotes();
+loadHero();
 loadTicker();
 </script>
 </body>
